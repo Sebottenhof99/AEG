@@ -2,6 +2,11 @@ package bdo;
 
 public class PhoneCover {
 
+    public PhoneCover(String phoneName, String motive) {
+        this.phoneName = phoneName;
+        this.motive = motive;
+    }
+
     private String phoneName;
     private String motive;
 
