@@ -1,15 +1,15 @@
 package logic;
 
+import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.xssf.usermodel.XSSFRow;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
+import java.io.*;
 import java.util.Iterator;
 
 public class ExcelReader {
@@ -46,6 +46,39 @@ public class ExcelReader {
 
         workbook.close();
         inputStream.close();
+        writeXLSXFile(1,1, excelFilePath);
+    }
+
+    public static void writeXLSXFile(int row, int col, String path) throws IOException {
+        try {
+            FileInputStream file = new FileInputStream(path);
+
+            XSSFWorkbook workbook = new XSSFWorkbook(file);
+            XSSFSheet sheet = workbook.getSheetAt(0);
+            Cell cell = null;
+
+            XSSFRow sheetrow = sheet.getRow(row);
+            if(sheetrow == null){
+                sheetrow = sheet.createRow(row);
+            }
+//Update the value of cell
+            cell = sheetrow.getCell(col);
+            if(cell == null){
+                cell = sheetrow.createCell(col);
+            }
+            cell.setCellValue("Pass");
+
+            file.close();
+
+            FileOutputStream outFile =new FileOutputStream(new File(path));
+            workbook.write(outFile);
+            outFile.close();
+
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
 }
