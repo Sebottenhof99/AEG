@@ -1,5 +1,7 @@
 package logic;
 
+import bdo.PhoneCover;
+import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
@@ -9,6 +11,12 @@ import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
+import java.awt.*;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.util.ArrayList;
 import java.io.*;
 import java.util.Iterator;
 
@@ -21,65 +29,76 @@ public class ExcelReader {
         Workbook workbook = new XSSFWorkbook(inputStream);
         Sheet firstSheet = workbook.getSheetAt(0);
         Iterator<Row> iterator = firstSheet.iterator();
+        ArrayList<String> motive = new ArrayList();
+        ArrayList<PhoneCover> phoneCover = new ArrayList();
 
-
-        while (iterator.hasNext()) {
+        for (int i = 0; iterator.hasNext(); i++) {
             Row nextRow = iterator.next();
             Iterator<Cell> cellIterator = nextRow.cellIterator();
+            String currentPhone = "";
+            for (int j = 0; cellIterator.hasNext(); j++) {
 
-            while (cellIterator.hasNext()) {
                 Cell cell = cellIterator.next();
 
-                switch (cell.getCellType()) {
-                    case Cell.CELL_TYPE_STRING:
-                        System.out.print(cell.getStringCellValue());
-                        break;
-                    case Cell.CELL_TYPE_NUMERIC:
-                        System.out.print(cell.getNumericCellValue());
-                        break;
+                //speichert alle Motive
+                if (i == 0) {
+                    motive.add(cell.getStringCellValue());
 
                 }
-                System.out.print(" - ");
+                //nimmt hier den Handynamen
+                if (j == 0 && i != 0) {
+                    if (cell.getCellTypeEnum() != CellType.STRING) {
+                    } else {
+                        currentPhone = cell.getStringCellValue();
+                        continue;
+                    }
+
+
+                }
+
+                //geht alle Kombinationen durch
+                if (i != 0) {
+                    switch (cell.getCellType()) {
+                        case Cell.CELL_TYPE_STRING:
+                            phoneCover.add(new PhoneCover(currentPhone, motive.get(j)));
+                            //   System.out.print(cell.getStringCellValue());
+                            break;
+                        case Cell.CELL_TYPE_NUMERIC:
+                            if (cell.getNumericCellValue() == 0) {
+                                continue;
+                            } else {
+                                phoneCover.add(new PhoneCover(currentPhone, motive.get(j)));
+                            }
+
+                            break;
+
+                    }
+                }
+
             }
-            System.out.println();
+
         }
+
+
+        for (int i = 0; i < phoneCover.size(); i++) {
+            System.out.println(phoneCover.get(i).getPhoneName() + " " + phoneCover.get(i).getMotive());
+        }
+        ExcelWriter writer = new ExcelWriter();
+        writer.openFile("C:\\Users\\Antoshka\\Desktop\\Books - Kopie.xls");
+        writer.writeXLSXFile(new Point(3,3), "Test111111");
+        writer.writeXLSXFile(new Point(4,3), "Test121212");
+        writer.writeXLSXFile(new Point(5,3), "Test11111111212121");
+        writer.closeFile("C:\\Users\\Antoshka\\Desktop\\Books - Kopie222222.xls");
 
         workbook.close();
         inputStream.close();
-        writeXLSXFile(1,1, excelFilePath);
     }
 
-    public static void writeXLSXFile(int row, int col, String path) throws IOException {
-        try {
-            FileInputStream file = new FileInputStream(path);
 
-            XSSFWorkbook workbook = new XSSFWorkbook(file);
-            XSSFSheet sheet = workbook.getSheetAt(0);
-            Cell cell = null;
-
-            XSSFRow sheetrow = sheet.getRow(row);
-            if(sheetrow == null){
-                sheetrow = sheet.createRow(row);
-            }
-//Update the value of cell
-            cell = sheetrow.getCell(col);
-            if(cell == null){
-                cell = sheetrow.createCell(col);
-            }
-            cell.setCellValue("Pass");
-
-            file.close();
-
-            FileOutputStream outFile =new FileOutputStream(new File(path));
-            workbook.write(outFile);
-            outFile.close();
-
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
 
 }
+
+
+
+
 
