@@ -14,6 +14,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import logic.ExcelReader;
+import logic.MainLogic;
 
 import java.io.File;
 import java.io.IOException;
@@ -42,8 +43,8 @@ public class FXMLBspController{
         File file = chooser.showOpenDialog(stage);
         if (file != null) {
             selectedFile.setText(file.getPath());
-            ExcelReader e = new ExcelReader();
-            e.read(file.getPath());
+            MainLogic mainLogic = new MainLogic();
+            mainLogic.action(file.getPath());
         }
         fillComboBox1();
 

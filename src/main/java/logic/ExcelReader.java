@@ -23,7 +23,7 @@ import java.util.Iterator;
 public class ExcelReader {
 
 
-    public void read(String excelFilePath) throws IOException {
+    public ArrayList<PhoneCover> read(String excelFilePath) throws IOException {
         FileInputStream inputStream = new FileInputStream(new File(excelFilePath));
 
         Workbook workbook = new XSSFWorkbook(inputStream);
@@ -83,15 +83,10 @@ public class ExcelReader {
         for (int i = 0; i < phoneCover.size(); i++) {
             System.out.println(phoneCover.get(i).getPhoneName() + " " + phoneCover.get(i).getMotive());
         }
-        ExcelWriter writer = new ExcelWriter();
-        writer.openFile("C:\\Users\\Antoshka\\Desktop\\Books - Kopie.xls");
-        writer.writeXLSXFile(new Point(3,3), "Test111111");
-        writer.writeXLSXFile(new Point(4,3), "Test121212");
-        writer.writeXLSXFile(new Point(5,3), "Test11111111212121");
-        writer.closeFile("C:\\Users\\Antoshka\\Desktop\\Books - Kopie222222.xls");
 
         workbook.close();
         inputStream.close();
+        return phoneCover;
     }
 
 
