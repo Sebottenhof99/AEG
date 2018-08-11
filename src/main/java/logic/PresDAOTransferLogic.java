@@ -3,6 +3,7 @@ package logic;
 import dao.DAOBulletpoint;
 import dao.DAODropdowns;
 import dao.DAOGeneral;
+import dao.DAOParentSKU;
 import javafx.collections.ObservableList;
 
 import java.sql.SQLException;
@@ -13,6 +14,7 @@ public class PresDAOTransferLogic {
 DAODropdowns daoDropdowns = new DAODropdowns();
 DAOBulletpoint daoBulletpoint = new DAOBulletpoint();
 DAOGeneral daoGeneral= new DAOGeneral();
+DAOParentSKU daoParentSKU = new DAOParentSKU();
 
 
     public ObservableList<String> getMaterials(){
@@ -46,7 +48,7 @@ DAOGeneral daoGeneral= new DAOGeneral();
 
         }catch (SQLException ex){
             ex.printStackTrace();
-            System.out.println("Fehler beim Auslesen der zusätzlichen Materialparameter"); }
+            System.out.println("Fehler beim Auslesen der bulletpoints"); }
         return bulletpoints;
     }
 
@@ -57,8 +59,19 @@ DAOGeneral daoGeneral= new DAOGeneral();
             generalInformation   = daoGeneral.getGeneralInformation(materialName);
             }catch (SQLException ex){
             ex.printStackTrace();
-            System.out.println("Fehler beim Auslesen der zusätzlichen Materialparameter"); }
+            System.out.println("Fehler beim Auslesen der allgemeinen Information"); }
         return generalInformation.get(0);
+    }
+
+
+    public String getParentSKU(String materialName, String modellMaterial){
+       String parentSKU = "";
+        try {
+            parentSKU   = daoParentSKU.getParentSKU(materialName, modellMaterial);
+        }catch (SQLException ex){
+            ex.printStackTrace();
+            System.out.println("Fehler beim Auslesen des ParentSKU-Parameters"); }
+        return parentSKU;
     }
 
 

@@ -75,8 +75,11 @@ public class FXMLBspController{
 
 
         if (!list.isEmpty()) {
-            comboBox2.setItems(list);
             comboBox2.setDisable(false);
+            comboBox2.setItems(list);
+
+
+
 
             comboBox2.valueProperty().addListener(new ChangeListener<String>() {
 
@@ -85,8 +88,8 @@ public class FXMLBspController{
                 public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
 
                     System.out.println(comboBox1.getSelectionModel().getSelectedItem().toString());
-                    detailedAnchorPane.setVisible(true);
-                }
+                  detailedAnchorPane.setVisible(true);
+                  }
             });
         } else {
             comboBox2.setDisable(true);
@@ -131,7 +134,6 @@ public class FXMLBspController{
 
 
     }
-
 
 
 
