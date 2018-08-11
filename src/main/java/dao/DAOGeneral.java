@@ -12,8 +12,8 @@ import java.util.TreeMap;
 public class DAOGeneral {
 
 
-    public ArrayList<ArrayList<String>> getGeneralInformation(String materialName) throws SQLException {
-        ArrayList<ArrayList<String>> generalInformation  = new ArrayList<>();
+    public ArrayList<String> getGeneralInformation(String materialName) throws SQLException {
+        ArrayList<String> generalInformation  = new ArrayList<>();
 
         String getgeneralInfoIdQuery = "SELECT * "  +
                 "FROM General " +
@@ -31,23 +31,21 @@ public class DAOGeneral {
         ResultSet rs = stmt.executeQuery(getgeneralInfoIdQuery);
 
         while (rs.next()) {
-            ArrayList<String> partSet = new ArrayList<>();
+
 
             String item_name = rs.getString("item_name");
             String product_description = rs.getString("product_description");
             String recommended_browse_nodes = rs.getString("recommended_browse_nodes");
             String generic_keywords = rs.getString("generic_keywords");
             String variation_theme = rs.getString("variation_theme");
-            partSet.add(item_name);
-            partSet.add(product_description);
-            partSet.add(recommended_browse_nodes);
-            partSet.add(generic_keywords);
-            partSet.add(variation_theme);
-            generalInformation.add(partSet);
+            generalInformation.add(item_name);
+            generalInformation.add(product_description);
+            generalInformation.add(recommended_browse_nodes);
+            generalInformation.add(generic_keywords);
+            generalInformation.add(variation_theme);
+
 
         }
         return generalInformation;
     }
-
-
 }

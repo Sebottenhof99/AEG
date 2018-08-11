@@ -54,13 +54,13 @@ DAOParentSKU daoParentSKU = new DAOParentSKU();
 
 
     public ArrayList<String> getGeneralInformation(String materialName){
-        ArrayList<ArrayList<String>> generalInformation = null;
+        ArrayList<String> generalInformation = null;
         try {
             generalInformation   = daoGeneral.getGeneralInformation(materialName);
             }catch (SQLException ex){
             ex.printStackTrace();
             System.out.println("Fehler beim Auslesen der allgemeinen Information"); }
-        return generalInformation.get(0);
+        return generalInformation;
     }
 
 
