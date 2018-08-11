@@ -50,4 +50,12 @@ public class Defines {
 
 
     }
+    public class DBProperties{
+        public final static String USERNAME = "db.user";
+        public final static String PASSWORD = "db.password";
+        public final static String URL = "db.url";
+        public final static String DATABASE = "db.database";
+
+
+    }
 }
