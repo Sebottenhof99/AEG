@@ -1,10 +1,14 @@
 package logic;
 
 import bdo.PhoneCover;
+import dao.DAOBulletpoint;
+import dao.DAOGeneral;
+import dao.DAOParentSKU;
 import defines.Defines;
 
 import java.awt.*;
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 public class MainLogic {
@@ -14,7 +18,11 @@ public class MainLogic {
     public void action(String inputPath, String material, String modellMaterial, String price) throws IOException {
         ArrayList<PhoneCover> list = getListOfAllPhoneCovers(inputPath);
         fillFirstLine( material, modellMaterial);
-        writeAllCovers(list, material, modellMaterial, transferPrice(price));
+        try {
+            writeAllCovers(list, material, modellMaterial, transferPrice(price));
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     private void fillFirstLine( String material, String modellMaterial) throws IOException {
@@ -29,12 +37,24 @@ public class MainLogic {
         String product_type = Defines.GeneralInformation.PRODUCT_TYPE;
         String delete_update = Defines.GeneralInformation.UPDATE_DELETE;
         String browseNode = "BROWSE NODE";
-        String GenericKeywords = "GENERIC KEYWORDS";
-        String IMAGE = "FIRST IMAGE";
+        String genericKeywords = "GENERIC KEYWORDS";
+        String image = "FIRST IMAGE";
         String parentChild = Defines.GeneralInformation.PARENT;
         String variationTheme = "SIZE NAME OR COLOR NAME???";
 
         excelWriter.writeXLSXFile(new Point(Defines.AmazonExcelValues.PARENT__SKU, FIRSTLINENUMBER),parentSKU);
+        excelWriter.writeXLSXFile(new Point(Defines.AmazonExcelValues.ITEM_NAME, FIRSTLINENUMBER),itemName);
+        excelWriter.writeXLSXFile(new Point(Defines.AmazonExcelValues.BRAND_NAME, FIRSTLINENUMBER),brandName);
+        excelWriter.writeXLSXFile(new Point(Defines.AmazonExcelValues.MANUFACTURER_NAME, FIRSTLINENUMBER),manufacturer);
+        excelWriter.writeXLSXFile(new Point(Defines.AmazonExcelValues.DESCRIPTION, FIRSTLINENUMBER),description);
+        excelWriter.writeXLSXFile(new Point(Defines.AmazonExcelValues.PRODUCT_TYPE, FIRSTLINENUMBER),product_type);
+        excelWriter.writeXLSXFile(new Point(Defines.AmazonExcelValues.UPDATE_DELETE, FIRSTLINENUMBER),delete_update);
+        excelWriter.writeXLSXFile(new Point(Defines.AmazonExcelValues.BROWSE_NODE, FIRSTLINENUMBER),browseNode);
+        excelWriter.writeXLSXFile(new Point(Defines.AmazonExcelValues.SEARCH_KEYWORDS, FIRSTLINENUMBER),genericKeywords);
+        excelWriter.writeXLSXFile(new Point(Defines.AmazonExcelValues.MAIN_IMAGE, FIRSTLINENUMBER),image);
+        excelWriter.writeXLSXFile(new Point(Defines.AmazonExcelValues.PARENT_CHILD, FIRSTLINENUMBER),parentChild);
+        excelWriter.writeXLSXFile(new Point(Defines.AmazonExcelValues.VARIATION, FIRSTLINENUMBER),variationTheme);
+
     }
 
     private double transferPrice(String price){
@@ -50,9 +70,16 @@ public class MainLogic {
 
     }
 
-    public void writeAllCovers(ArrayList<PhoneCover> listOfAllPhoneCovers, String material, String modellMaterial, double price) throws IOException {
+    public void writeAllCovers(ArrayList<PhoneCover> listOfAllPhoneCovers, String material, String modellMaterial, double price) throws IOException, SQLException {
         System.out.println("Start writing files");
+        DAOBulletpoint daoBulletpoint = new DAOBulletpoint();
+        ArrayList<String> bulletPoints = daoBulletpoint.getBulletpoints(material);
 
+        DAOParentSKU daoParentSKU = new DAOParentSKU();
+        final String parentSKU = daoParentSKU.getParentSKU(material,modellMaterial);
+
+        DAOGeneral daoGeneral = new DAOGeneral();
+        daoGeneral.getGeneralInformation(material);
 
         for (int i = 0; i < listOfAllPhoneCovers.size(); i++) {
             int currentRow = i+4;
@@ -72,11 +99,11 @@ public class MainLogic {
             excelWriter.writeXLSXFile(new Point(Defines.AmazonExcelValues.QUANTITY  ,currentRow), Defines.GeneralInformation.QUANTITY);
             excelWriter.writeXLSXFile(new Point(Defines.AmazonExcelValues.CONDITION  ,currentRow), Defines.GeneralInformation.CONDITION);
             excelWriter.writeXLSXFile(new Point(Defines.AmazonExcelValues.SHIPPING_GROUP  ,currentRow),"SHIPPINH GROUP");
-            excelWriter.writeXLSXFile(new Point(Defines.AmazonExcelValues.BULLET_POINT_1  ,currentRow),"BP1");
-            excelWriter.writeXLSXFile(new Point(Defines.AmazonExcelValues.BULLET_POINT_2  ,currentRow),"BP2");
-            excelWriter.writeXLSXFile(new Point(Defines.AmazonExcelValues.BULLET_POINT_3  ,currentRow),"BP3");
-            excelWriter.writeXLSXFile(new Point(Defines.AmazonExcelValues.BULLET_POINT_4  ,currentRow),"BP4");
-            excelWriter.writeXLSXFile(new Point(Defines.AmazonExcelValues.BULLET_POINT_5  ,currentRow),"BP5");
+            excelWriter.writeXLSXFile(new Point(Defines.AmazonExcelValues.BULLET_POINT_1  ,currentRow),bulletPoints.get(0));
+            excelWriter.writeXLSXFile(new Point(Defines.AmazonExcelValues.BULLET_POINT_2  ,currentRow),bulletPoints.get(1));
+            excelWriter.writeXLSXFile(new Point(Defines.AmazonExcelValues.BULLET_POINT_3  ,currentRow),bulletPoints.get(2));
+            excelWriter.writeXLSXFile(new Point(Defines.AmazonExcelValues.BULLET_POINT_4  ,currentRow),bulletPoints.get(3));
+            excelWriter.writeXLSXFile(new Point(Defines.AmazonExcelValues.BULLET_POINT_5  ,currentRow),bulletPoints.get(4));
             excelWriter.writeXLSXFile(new Point(Defines.AmazonExcelValues.BROWSE_NODE  ,currentRow),"Browse Node");
             excelWriter.writeXLSXFile(new Point(Defines.AmazonExcelValues.SEARCH_KEYWORDS  ,currentRow),"Search Keyword");
             excelWriter.writeXLSXFile(new Point(Defines.AmazonExcelValues.MAIN_IMAGE  ,currentRow),"MAIN IMAGE");
@@ -89,7 +116,7 @@ public class MainLogic {
             excelWriter.writeXLSXFile(new Point(Defines.AmazonExcelValues.IMAGE7 ,currentRow),"IMAGE7 ");
             excelWriter.writeXLSXFile(new Point(Defines.AmazonExcelValues.IMAGE8 ,currentRow),"IMAGE8 ");
             excelWriter.writeXLSXFile(new Point(Defines.AmazonExcelValues.PARENT_CHILD ,currentRow), Defines.GeneralInformation.CHILD);
-            excelWriter.writeXLSXFile(new Point(Defines.AmazonExcelValues.PARENT__SKU ,currentRow), "PARENT SKU");
+            excelWriter.writeXLSXFile(new Point(Defines.AmazonExcelValues.PARENT__SKU ,currentRow), parentSKU);
             excelWriter.writeXLSXFile(new Point(Defines.AmazonExcelValues.RELATION_TYPE ,currentRow), Defines.GeneralInformation.RELATION_TYPE);
             excelWriter.writeXLSXFile(new Point(Defines.AmazonExcelValues.VARIATION ,currentRow), "VARIATION TYPE (SIZE NAME COLOR NAME)");
             excelWriter.writeXLSXFile(new Point(Defines.AmazonExcelValues.COLOR ,currentRow), currentItem.getMotive());
