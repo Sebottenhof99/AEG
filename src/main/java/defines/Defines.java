@@ -68,7 +68,7 @@ public class Defines {
         public final static String PARENT = "Parent";
         public final static String BARCODE_TYPE= "EAN";
         public final static String PRODUCT_TYPE= "PhoneAccessory";
-        public final static String QUANTITY= "1";
+        public final static int QUANTITY= 1;
         public final static String CONDITION= "NEU";
         public final static String RELATION_TYPE = "Variation";
     }
