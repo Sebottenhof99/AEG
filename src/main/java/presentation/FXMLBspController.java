@@ -14,6 +14,7 @@ import logic.PresDAOTransferLogic;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 
 public class FXMLBspController{
     public Button selectFileButton;
@@ -28,6 +29,9 @@ public class FXMLBspController{
     public ComboBox comboBox2;
     public TextField priceField;
     public AnchorPane detailedAnchorPane;
+    public TextField browsenumber;
+    public TextField parentSKU;
+    public TextField variation;
 
     PresDAOTransferLogic presDAOTransferLogic = new PresDAOTransferLogic();
 
@@ -45,17 +49,12 @@ public class FXMLBspController{
         }
         presentMaterial();
 
-
     }
-
-
 
     public void presentMaterial(){
         ObservableList<String> list = presDAOTransferLogic.getMaterials();
 
-
         comboBox1.setItems(list);
-
         comboBox1.valueProperty().addListener(new ChangeListener<String>(){
 
 
@@ -63,22 +62,23 @@ public class FXMLBspController{
             public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
 
                 presentAdditionalMaterialParameters();
+                setBulletpoints();
+                setGeneralInformation();
                 detailedAnchorPane.setVisible(true);
             }
         });
         }
 
 
-    public void presentAdditionalMaterialParameters(){
+    public void presentAdditionalMaterialParameters() {
         ObservableList<String> list = presDAOTransferLogic.getAdditionalMaterialParameters(comboBox1.getSelectionModel().getSelectedItem().toString());
 
 
-
-        if (!list.isEmpty()){
+        if (!list.isEmpty()) {
             comboBox2.setItems(list);
             comboBox2.setDisable(false);
 
-            comboBox2.valueProperty().addListener(new ChangeListener<String>(){
+            comboBox2.valueProperty().addListener(new ChangeListener<String>() {
 
 
                 @Override
@@ -88,14 +88,49 @@ public class FXMLBspController{
                     detailedAnchorPane.setVisible(true);
                 }
             });
-        }else{
-
+        } else {
             comboBox2.setDisable(true);
+        }
+    }
 
+    public void setBulletpoints(){
+        ArrayList<String >bulletpoints  = presDAOTransferLogic.getBulletpoints(comboBox1.getSelectionModel().getSelectedItem().toString());
+
+        if (!isNullOrEmpty(bulletpoints.get(0))) {
+            bulletPoint1.setText(bulletpoints.get(0));
         }
 
-
+        if (!isNullOrEmpty(bulletpoints.get(1))) {
+            bulletPoint2.setText(bulletpoints.get(1));
         }
+        if (!isNullOrEmpty(bulletpoints.get(2))) {
+            bulletPoint3.setText(bulletpoints.get(2));
+        }
+        if (!isNullOrEmpty(bulletpoints.get(3))) {
+            bulletPoint4.setText(bulletpoints.get(3));
+        }
+        if (!isNullOrEmpty(bulletpoints.get(4))) {
+            bulletPoint5.setText(bulletpoints.get(4));
+        }
+    }
+
+    private boolean isNullOrEmpty(String s){
+        if (s==null||s.isEmpty()){
+            return true;
+        }else{
+            return false;
+        }
+    }
+
+    public void setGeneralInformation(){
+        ArrayList<String >generalInformation  = presDAOTransferLogic.getGeneralInformation(comboBox1.getSelectionModel().getSelectedItem().toString());
+
+        articlename.setText(generalInformation.get(0));
+        browsenumber.setText(generalInformation.get(2));
+        variation.setText(generalInformation.get(4));
+
+
+    }
 
 
 
