@@ -31,13 +31,12 @@ public class FXMLBspController {
     public TextField priceField;
     public AnchorPane detailedAnchorPane;
     public TextField browsenumber;
-    public TextField parentSKU;
     public TextField variation;
     public Button startBUtton;
 
     PresDAOTransferLogic presDAOTransferLogic = new PresDAOTransferLogic();
 
-    public void selectFile(ActionEvent actionEvent) throws IOException {
+    public void selectFile(ActionEvent actionEvent) {
         Stage stage = new Stage();
         FileChooser chooser = new FileChooser();
         chooser.setTitle("Excel Datei auswählen");
