@@ -1,20 +1,16 @@
 package presentation;
 
 import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableObjectValue;
 import javafx.beans.value.ObservableValue;
-import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
-import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
-import logic.ExcelReader;
-import logic.MainLogic;
+import logic.PresDAOTransferLogic;
 
 import java.io.File;
 import java.io.IOException;
@@ -33,6 +29,8 @@ public class FXMLBspController{
     public TextField priceField;
     public AnchorPane detailedAnchorPane;
 
+    PresDAOTransferLogic presDAOTransferLogic = new PresDAOTransferLogic();
+
     public void selectFile(ActionEvent actionEvent) throws IOException {
         Stage stage = new Stage();
         FileChooser chooser = new FileChooser();
@@ -43,20 +41,18 @@ public class FXMLBspController{
         File file = chooser.showOpenDialog(stage);
         if (file != null) {
             selectedFile.setText(file.getPath());
-            MainLogic mainLogic = new MainLogic();
-            mainLogic.action(file.getPath());
+
         }
-        fillComboBox1();
+        presentMaterial();
+
 
     }
 
 
 
-    public void fillComboBox1(){
-        ObservableList<String> list = FXCollections.observableArrayList();
-        list.add("test1");
-        list.add("test2");
-        list.add("test3");
+    public void presentMaterial(){
+        ObservableList<String> list = presDAOTransferLogic.getMaterials();
+
 
         comboBox1.setItems(list);
 
@@ -66,11 +62,42 @@ public class FXMLBspController{
             @Override
             public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
 
-                System.out.println(comboBox1.getSelectionModel().getSelectedItem().toString());
+                presentAdditionalMaterialParameters();
                 detailedAnchorPane.setVisible(true);
             }
         });
         }
+
+
+    public void presentAdditionalMaterialParameters(){
+        ObservableList<String> list = presDAOTransferLogic.getAdditionalMaterialParameters(comboBox1.getSelectionModel().getSelectedItem().toString());
+
+
+
+        if (!list.isEmpty()){
+            comboBox2.setItems(list);
+            comboBox2.setDisable(false);
+
+            comboBox2.valueProperty().addListener(new ChangeListener<String>(){
+
+
+                @Override
+                public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+
+                    System.out.println(comboBox1.getSelectionModel().getSelectedItem().toString());
+                    detailedAnchorPane.setVisible(true);
+                }
+            });
+        }else{
+
+            comboBox2.setDisable(true);
+
+        }
+
+
+        }
+
+
 
 
 }
