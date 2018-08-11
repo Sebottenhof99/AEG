@@ -86,13 +86,17 @@ public class MainLogic {
         for (int i = 0; i < listOfAllPhoneCovers.size(); i++) {
             int currentRow = i+4;
             PhoneCover currentItem = listOfAllPhoneCovers.get(i);
-
             String sku = generateSKU(material, currentItem);
 
             excelWriter.writeXLSXFile(new Point(Defines.AmazonExcelValues.ITEM_SKU  ,currentRow), sku);
             excelWriter.writeXLSXFile(new Point(Defines.AmazonExcelValues.EAN  ,currentRow), "ENTER EAN");
             excelWriter.writeXLSXFile(new Point(Defines.AmazonExcelValues.BARCODE_TYPE  ,currentRow), Defines.GeneralInformation.BARCODE_TYPE);
-            excelWriter.writeXLSXFile(new Point(Defines.AmazonExcelValues.ITEM_NAME  ,currentRow), generalInformation.get(Defines.GeneralInformationParser.ITEM_NAME) + " " + currentItem.getPhoneName() + ", " + currentItem.getMotive());
+
+            if(material.toLowerCase().contains("glas")){
+                excelWriter.writeXLSXFile(new Point(Defines.AmazonExcelValues.ITEM_NAME  ,currentRow), "[" + currentItem.getMotive() + "] " + generalInformation.get(Defines.GeneralInformationParser.ITEM_NAME) + " " + currentItem.getPhoneName());
+            }else {
+                excelWriter.writeXLSXFile(new Point(Defines.AmazonExcelValues.ITEM_NAME  ,currentRow), generalInformation.get(Defines.GeneralInformationParser.ITEM_NAME) + " " + currentItem.getPhoneName() + ", " + currentItem.getMotive());
+            }
             excelWriter.writeXLSXFile(new Point(Defines.AmazonExcelValues.BRAND_NAME  ,currentRow), Defines.GeneralInformation.BRAND);
             excelWriter.writeXLSXFile(new Point(Defines.AmazonExcelValues.MANUFACTURER_NAME  ,currentRow), Defines.GeneralInformation.MANUFACTURER);
             excelWriter.writeXLSXFile(new Point(Defines.AmazonExcelValues.DESCRIPTION  ,currentRow), generalInformation.get(Defines.GeneralInformationParser.DESCRIPTION));
@@ -123,15 +127,25 @@ public class MainLogic {
             excelWriter.writeXLSXFile(new Point(Defines.AmazonExcelValues.PARENT_CHILD ,currentRow), Defines.GeneralInformation.CHILD);
             excelWriter.writeXLSXFile(new Point(Defines.AmazonExcelValues.PARENT__SKU ,currentRow), parentSKU);
             excelWriter.writeXLSXFile(new Point(Defines.AmazonExcelValues.RELATION_TYPE ,currentRow), Defines.GeneralInformation.RELATION_TYPE);
-            excelWriter.writeXLSXFile(new Point(Defines.AmazonExcelValues.VARIATION ,currentRow), generalInformation.get(Defines.GeneralInformationParser.VARIATION_THEME));
-            excelWriter.writeXLSXFile(new Point(Defines.AmazonExcelValues.COLOR ,currentRow), currentItem.getMotive());
-            excelWriter.writeXLSXFile(new Point(Defines.AmazonExcelValues.SIZE ,currentRow), currentItem.getPhoneName());
 
+            String variationTheme = generalInformation.get(Defines.GeneralInformationParser.VARIATION_THEME);
 
+            if(variationTheme.equalsIgnoreCase(Defines.VariationThemes.COLOR)){
+                excelWriter.writeXLSXFile(new Point(Defines.AmazonExcelValues.COLOR ,currentRow), currentItem.getMotive());
+            }else if(variationTheme.equalsIgnoreCase(Defines.VariationThemes.SIZE)) {
+                excelWriter.writeXLSXFile(new Point(Defines.AmazonExcelValues.SIZE ,currentRow), currentItem.getPhoneName());
+            }else{
+                excelWriter.writeXLSXFile(new Point(Defines.AmazonExcelValues.SIZE ,currentRow), currentItem.getPhoneName());
+                excelWriter.writeXLSXFile(new Point(Defines.AmazonExcelValues.COLOR ,currentRow), currentItem.getMotive());
+            }
+
+            excelWriter.writeXLSXFile(new Point(Defines.AmazonExcelValues.VARIATION ,currentRow), variationTheme);
             System.out.println("added." + i + "of " + listOfAllPhoneCovers.size());
+
         }
         System.out.println("stop writing files");
         excelWriter.closeFile(System.getProperty("user.home") + "\\Desktop\\bling222222.xlsx");
+
     }
 
     public String generateSKU(String material, PhoneCover cover ){
@@ -157,6 +171,10 @@ public class MainLogic {
             sku.append(phoneName);
 
             String motive = cover.getMotive();
+            motive = motive.replace("Traumfänger", "Traumf");
+            motive = motive.replace("Schwarz-Weiß" , "SW");
+            motive = motive.replace("Nintedo Gameboy", "Gameboy");
+            motive = motive.replace("Gameboy Nintendo", "Gameboy");
             sku.append("_");
             sku.append(motive);
 

@@ -79,7 +79,11 @@ public class Defines {
         public final static int BROWSE_NODE = 2;
         public final static int GENERIC_KEYWORDS = 3;
         public final static int VARIATION_THEME = 4;
+    }
 
-
+    public class VariationThemes {
+        public final static String SIZE = "SizeName";
+        public final static String COLOR = "ColorName";
+        public final static String SIZECOLOR = "SizeName-ColorName";
     }
 }
