@@ -43,8 +43,8 @@ public class FXMLBspController{
         File file = chooser.showOpenDialog(stage);
         if (file != null) {
             selectedFile.setText(file.getPath());
-            MainLogic mainLogic = new MainLogic();
-            mainLogic.action(file.getPath());
+           MainLogic mainLogic = new MainLogic();
+             mainLogic.action(file.getPath());
         }
         fillComboBox1();
 
