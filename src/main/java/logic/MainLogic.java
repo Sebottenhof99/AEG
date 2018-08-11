@@ -91,12 +91,6 @@ public class MainLogic {
             excelWriter.writeXLSXFile(new Point(Defines.AmazonExcelValues.ITEM_SKU  ,currentRow), sku);
             excelWriter.writeXLSXFile(new Point(Defines.AmazonExcelValues.EAN  ,currentRow), "ENTER EAN");
             excelWriter.writeXLSXFile(new Point(Defines.AmazonExcelValues.BARCODE_TYPE  ,currentRow), Defines.GeneralInformation.BARCODE_TYPE);
-
-            if(material.toLowerCase().contains("glas")){
-                excelWriter.writeXLSXFile(new Point(Defines.AmazonExcelValues.ITEM_NAME  ,currentRow), "[" + currentItem.getMotive() + "] " + generalInformation.get(Defines.GeneralInformationParser.ITEM_NAME) + " " + currentItem.getPhoneName());
-            }else {
-                excelWriter.writeXLSXFile(new Point(Defines.AmazonExcelValues.ITEM_NAME  ,currentRow), generalInformation.get(Defines.GeneralInformationParser.ITEM_NAME) + " " + currentItem.getPhoneName() + ", " + currentItem.getMotive());
-            }
             excelWriter.writeXLSXFile(new Point(Defines.AmazonExcelValues.BRAND_NAME  ,currentRow), Defines.GeneralInformation.BRAND);
             excelWriter.writeXLSXFile(new Point(Defines.AmazonExcelValues.MANUFACTURER_NAME  ,currentRow), Defines.GeneralInformation.MANUFACTURER);
             excelWriter.writeXLSXFile(new Point(Defines.AmazonExcelValues.DESCRIPTION  ,currentRow), generalInformation.get(Defines.GeneralInformationParser.DESCRIPTION));
@@ -132,9 +126,20 @@ public class MainLogic {
 
             if(variationTheme.equalsIgnoreCase(Defines.VariationThemes.COLOR)){
                 excelWriter.writeXLSXFile(new Point(Defines.AmazonExcelValues.COLOR ,currentRow), currentItem.getMotive());
+
             }else if(variationTheme.equalsIgnoreCase(Defines.VariationThemes.SIZE)) {
                 excelWriter.writeXLSXFile(new Point(Defines.AmazonExcelValues.SIZE ,currentRow), currentItem.getPhoneName());
+                if(material.toLowerCase().contains("glas")){
+                    excelWriter.writeXLSXFile(new Point(Defines.AmazonExcelValues.ITEM_NAME  ,currentRow), "[" + currentItem.getMotive() + "] " + generalInformation.get(Defines.GeneralInformationParser.ITEM_NAME));
+                }else {
+                    excelWriter.writeXLSXFile(new Point(Defines.AmazonExcelValues.ITEM_NAME  ,currentRow), generalInformation.get(Defines.GeneralInformationParser.ITEM_NAME) + " " + currentItem.getPhoneName());
+                }
             }else{
+                if(material.toLowerCase().contains("glas")){
+                    excelWriter.writeXLSXFile(new Point(Defines.AmazonExcelValues.ITEM_NAME  ,currentRow), "[" + currentItem.getMotive() + "] " + generalInformation.get(Defines.GeneralInformationParser.ITEM_NAME) + " " + currentItem.getPhoneName());
+                }else {
+                    excelWriter.writeXLSXFile(new Point(Defines.AmazonExcelValues.ITEM_NAME  ,currentRow), generalInformation.get(Defines.GeneralInformationParser.ITEM_NAME) + " " + currentItem.getPhoneName() + ", " + currentItem.getMotive());
+                }
                 excelWriter.writeXLSXFile(new Point(Defines.AmazonExcelValues.SIZE ,currentRow), currentItem.getPhoneName());
                 excelWriter.writeXLSXFile(new Point(Defines.AmazonExcelValues.COLOR ,currentRow), currentItem.getMotive());
             }
