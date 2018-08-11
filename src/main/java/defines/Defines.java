@@ -72,4 +72,14 @@ public class Defines {
         public final static String CONDITION= "NEU";
         public final static String RELATION_TYPE = "Variation";
     }
+
+    public class GeneralInformationParser{
+        public final static int ITEM_NAME = 0;
+        public final static int DESCRIPTION = 1;
+        public final static int BROWSE_NODE = 2;
+        public final static int GENERIC_KEYWORDS = 3;
+        public final static int VARIATION_THEME = 4;
+
+
+    }
 }
