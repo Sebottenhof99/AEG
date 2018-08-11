@@ -10,13 +10,14 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import logic.MainLogic;
 import logic.PresDAOTransferLogic;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 
-public class FXMLBspController{
+public class FXMLBspController {
     public Button selectFileButton;
     public TextField selectedFile;
     public TextField articlename;
@@ -30,12 +31,12 @@ public class FXMLBspController{
     public TextField priceField;
     public AnchorPane detailedAnchorPane;
     public TextField browsenumber;
-    public TextField parentSKU;
     public TextField variation;
+    public Button startBUtton;
 
     PresDAOTransferLogic presDAOTransferLogic = new PresDAOTransferLogic();
 
-    public void selectFile(ActionEvent actionEvent) throws IOException {
+    public void selectFile(ActionEvent actionEvent) {
         Stage stage = new Stage();
         FileChooser chooser = new FileChooser();
         chooser.setTitle("Excel Datei auswählen");
@@ -51,23 +52,24 @@ public class FXMLBspController{
 
     }
 
-    public void presentMaterial(){
+    public void presentMaterial() {
         ObservableList<String> list = presDAOTransferLogic.getMaterials();
 
         comboBox1.setItems(list);
-        comboBox1.valueProperty().addListener(new ChangeListener<String>(){
+        comboBox1.valueProperty().addListener(new ChangeListener<String>() {
 
 
             @Override
             public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
-
+                startBUtton.setDisable(true);
                 presentAdditionalMaterialParameters();
                 setBulletpoints();
                 setGeneralInformation();
                 detailedAnchorPane.setVisible(true);
+
             }
         });
-        }
+    }
 
 
     public void presentAdditionalMaterialParameters() {
@@ -77,9 +79,7 @@ public class FXMLBspController{
         if (!list.isEmpty()) {
             comboBox2.setDisable(false);
             comboBox2.setItems(list);
-
-
-
+            startBUtton.setDisable(true);
 
             comboBox2.valueProperty().addListener(new ChangeListener<String>() {
 
@@ -88,16 +88,18 @@ public class FXMLBspController{
                 public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
 
                     System.out.println(comboBox1.getSelectionModel().getSelectedItem().toString());
-                  detailedAnchorPane.setVisible(true);
-                  }
+                    //detailedAnchorPane.setVisible(true);
+                    startBUtton.setDisable(false);
+                }
             });
         } else {
             comboBox2.setDisable(true);
+            startBUtton.setDisable(false);
         }
     }
 
-    public void setBulletpoints(){
-        ArrayList<String >bulletpoints  = presDAOTransferLogic.getBulletpoints(comboBox1.getSelectionModel().getSelectedItem().toString());
+    public void setBulletpoints() {
+        ArrayList<String> bulletpoints = presDAOTransferLogic.getBulletpoints(comboBox1.getSelectionModel().getSelectedItem().toString());
 
         if (!isNullOrEmpty(bulletpoints.get(0))) {
             bulletPoint1.setText(bulletpoints.get(0));
@@ -117,16 +119,16 @@ public class FXMLBspController{
         }
     }
 
-    private boolean isNullOrEmpty(String s){
-        if (s==null||s.isEmpty()){
+    private boolean isNullOrEmpty(String s) {
+        if (s == null || s.isEmpty()) {
             return true;
-        }else{
+        } else {
             return false;
         }
     }
 
-    public void setGeneralInformation(){
-        ArrayList<String >generalInformation  = presDAOTransferLogic.getGeneralInformation(comboBox1.getSelectionModel().getSelectedItem().toString());
+    public void setGeneralInformation() {
+        ArrayList<String> generalInformation = presDAOTransferLogic.getGeneralInformation(comboBox1.getSelectionModel().getSelectedItem().toString());
 
         articlename.setText(generalInformation.get(0));
         browsenumber.setText(generalInformation.get(2));
@@ -136,6 +138,15 @@ public class FXMLBspController{
     }
 
 
+    public void startProgramm(ActionEvent actionEvent) throws IOException {
+        MainLogic mainLogic = new MainLogic();
+        if (comboBox2.isDisabled()) {
+            mainLogic.action(selectedFile.getText(), comboBox1.getSelectionModel().getSelectedItem().toString(), null, priceField.getText());
 
+        }
+        else{
+            mainLogic.action(selectedFile.getText(), comboBox1.getSelectionModel().getSelectedItem().toString(), comboBox2.getSelectionModel().getSelectedItem().toString(), priceField.getText());
+        }
+    }
 }
 

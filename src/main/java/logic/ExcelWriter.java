@@ -19,10 +19,9 @@ public class ExcelWriter {
         sheet = workbook.getSheetAt(0);
     }
 
-
+    @SuppressWarnings("Duplicates")
     public void writeXLSXFile(Point p, String value) {
              Cell cell;
-
             XSSFRow sheetrow = sheet.getRow(p.y);
             if (sheetrow == null) {
                 sheetrow = sheet.createRow(p.y);
@@ -33,6 +32,23 @@ public class ExcelWriter {
                 cell = sheetrow.createCell(p.x);
             }
             cell.setCellValue(value);
+
+
+    }
+
+    @SuppressWarnings("Duplicates")
+    public void writeXLSXFile(Point p, double val) {
+        Cell cell;
+        XSSFRow sheetrow = sheet.getRow(p.y);
+        if (sheetrow == null) {
+            sheetrow = sheet.createRow(p.y);
+        }
+
+        cell = sheetrow.getCell(p.x);
+        if (cell == null) {
+            cell = sheetrow.createCell(p.x);
+        }
+        cell.setCellValue(val);
 
 
     }
