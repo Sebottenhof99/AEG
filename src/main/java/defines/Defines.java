@@ -86,4 +86,12 @@ public class Defines {
         public final static String COLOR = "ColorName";
         public final static String SIZECOLOR = "SizeName-ColorName";
     }
+
+    public class FTPDATA{
+        public final static String USER = "ftp.user";
+        public final static String HOST = "ftp.host";
+        public final static String PORT = "ftp.port";
+        public final static String PASSWORD = "ftp.password";
+
+    }
 }
