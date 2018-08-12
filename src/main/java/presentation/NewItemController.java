@@ -6,13 +6,14 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.effect.BlendMode;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
+import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.ResourceBundle;
 
 public class NewItemController implements Initializable {
@@ -45,6 +46,7 @@ public class NewItemController implements Initializable {
     public Label bp3Label;
     public Label bp5Label;
     public Button close;
+    public TextField subMaterial;
 
     @FXML
     public void initialize(URL location, ResourceBundle resources) {
@@ -88,7 +90,31 @@ public class NewItemController implements Initializable {
         else {
             infobox.setTextFill(Color.ORANGE);
             infobox.setText("Die Daten werden übertragen. Bitte warten...");
+            processData();
         }
+    }
+
+    private boolean processData(){
+        //TODO Transmit all given data to db
+
+
+        ArrayList additionalMaterial = splitAdditionalMaterial(subMaterial.getText());
+        if (additionalMaterial != null){
+            //TODO Fill Modell_Material Table
+        }
+
+
+        return true;
+    }
+
+
+    public ArrayList<String> splitAdditionalMaterial(String material){
+        if(material == null || material.isEmpty()){
+            return null;
+        }
+        String[] splittedMaterial = material.split(",");
+        ArrayList<String> list = new ArrayList<>(Arrays.asList(splittedMaterial));
+        return list;
     }
 
     public boolean isDataFilled(TextField field, Label label){
@@ -128,6 +154,17 @@ public class NewItemController implements Initializable {
 
     public void closeWindow(ActionEvent actionEvent) {
         Stage stage = (Stage) close.getScene().getWindow();
-        stage.close();
+
+       String path = System.getProperty("user.dir");
+       path+="\\src\\main\\resources\\shutdown.bat";
+
+        try {
+            Runtime.getRuntime().exec(path);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+
+        //stage.close();
     }
 }
