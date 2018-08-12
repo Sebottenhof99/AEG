@@ -10,13 +10,8 @@ import java.util.ArrayList;
 import java.util.Properties;
 
 public class FTPImageReader {
-
-    public ArrayList<String> checkImages(String material, String motiv, String modell) throws IOException {
-        material = replaceUmlaute(material);
-        motiv = replaceUmlaute(motiv);
-        modell= replaceUmlaute(modell);
-        final String PREFIX = "https://hlworld.de/";
-
+    FTPClient ftpClient;
+    public void openFTPConnection() throws IOException {
         Properties prop = new Properties();
         InputStream in = getClass().getClassLoader().getResourceAsStream("data.properties");
         try {
@@ -30,9 +25,17 @@ public class FTPImageReader {
         String url = prop.getProperty(Defines.FTPDATA.HOST);
         int port = Integer.parseInt(prop.getProperty(Defines.FTPDATA.PORT));
 
-        FTPClient ftpClient = new FTPClient();
+        ftpClient = new FTPClient();
         ftpClient.connect(url, port);
         ftpClient.login(username, password);
+
+    }
+    public ArrayList<String> checkImages(String material, String motiv, String modell) throws IOException {
+        material = replaceUmlaute(material);
+        motiv = replaceUmlaute(motiv);
+        modell= replaceUmlaute(modell);
+        final String PREFIX = "https://hlworld.de/";
+
 
         final String SLASH = "/";
 
@@ -52,8 +55,6 @@ public class FTPImageReader {
                 }
 
             }
-            ftpClient.logout();
-            ftpClient.disconnect();
             return urls;
 
         }else if(ftpClient.changeWorkingDirectory(destinationWithoutModell)){
@@ -70,17 +71,19 @@ public class FTPImageReader {
                 }
 
             }
-            ftpClient.logout();
-            ftpClient.disconnect();
+
             return urls;
 
         }
         else{
             System.out.println("Could not find images in database. Please check the correct spelling of material, motive and model");
-            ftpClient.logout();
-            ftpClient.disconnect();
             return null;
         }
+    }
+
+    public void closeFTPConnection() throws IOException {
+        ftpClient.logout();
+        ftpClient.disconnect();
     }
 
     private String replaceUmlaute(String s){
