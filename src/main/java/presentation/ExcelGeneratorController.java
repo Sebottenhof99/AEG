@@ -39,6 +39,8 @@ public class ExcelGeneratorController {
     public TextField browsenumber;
     public TextField variation;
     public Button startBUtton;
+    public ComboBox shippingOption;
+//TODO Fill Shipping Option Box;
 
     PresDAOTransferLogic presDAOTransferLogic = new PresDAOTransferLogic();
 
@@ -149,11 +151,11 @@ public class ExcelGeneratorController {
     public void startProgramm(ActionEvent actionEvent) throws IOException {
         MainLogic mainLogic = new MainLogic();
         if (comboBox2.isDisabled()) {
-            mainLogic.action(selectedFile.getText(), comboBox1.getSelectionModel().getSelectedItem().toString(), null, priceField.getText());
+            mainLogic.action(selectedFile.getText(), comboBox1.getSelectionModel().getSelectedItem().toString(), null, priceField.getText(), shippingOption.getSelectionModel().getSelectedItem().toString());
 
         }
         else{
-            mainLogic.action(selectedFile.getText(), comboBox1.getSelectionModel().getSelectedItem().toString(), comboBox2.getSelectionModel().getSelectedItem().toString(), priceField.getText());
+            mainLogic.action(selectedFile.getText(), comboBox1.getSelectionModel().getSelectedItem().toString(), comboBox2.getSelectionModel().getSelectedItem().toString(), priceField.getText(), shippingOption.getSelectionModel().getSelectedItem().toString());
         }
     }
 

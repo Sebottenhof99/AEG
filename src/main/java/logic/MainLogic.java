@@ -15,11 +15,11 @@ public class MainLogic {
 
     ExcelWriter excelWriter = new ExcelWriter();
 
-    public void action(String inputPath, String material, String modellMaterial, String price) throws IOException {
+    public void action(String inputPath, String material, String modellMaterial, String price, String shippingOption) throws IOException {
         ArrayList<PhoneCover> list = getListOfAllPhoneCovers(inputPath);
 
         try {
-            writeAllCovers(list, material, modellMaterial, transferPrice(price));
+            writeAllCovers(list, material, modellMaterial, transferPrice(price), shippingOption);
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -70,7 +70,7 @@ public class MainLogic {
 
     }
 
-    public void writeAllCovers(ArrayList<PhoneCover> listOfAllPhoneCovers, String material, String modellMaterial, double price) throws IOException, SQLException {
+    public void writeAllCovers(ArrayList<PhoneCover> listOfAllPhoneCovers, String material, String modellMaterial, double price, String shippingOption) throws IOException, SQLException {
         System.out.println("Start writing files");
         DAOBulletpoint daoBulletpoint = new DAOBulletpoint();
         ArrayList<String> bulletPoints = daoBulletpoint.getBulletpoints(material);
@@ -101,7 +101,7 @@ public class MainLogic {
             excelWriter.writeXLSXFile(new Point(Defines.AmazonExcelValues.PRICE  ,currentRow), price);
             excelWriter.writeXLSXFile(new Point(Defines.AmazonExcelValues.QUANTITY  ,currentRow), Defines.GeneralInformation.QUANTITY);
             excelWriter.writeXLSXFile(new Point(Defines.AmazonExcelValues.CONDITION  ,currentRow), Defines.GeneralInformation.CONDITION);
-           // excelWriter.writeXLSXFile(new Point(Defines.AmazonExcelValues.SHIPPING_GROUP  ,currentRow),"SHIPPINH GROUP");
+            excelWriter.writeXLSXFile(new Point(Defines.AmazonExcelValues.SHIPPING_GROUP  ,currentRow),shippingOption);
             excelWriter.writeXLSXFile(new Point(Defines.AmazonExcelValues.BULLET_POINT_1  ,currentRow),bulletPoints.get(0));
             excelWriter.writeXLSXFile(new Point(Defines.AmazonExcelValues.BULLET_POINT_2  ,currentRow),bulletPoints.get(1));
             excelWriter.writeXLSXFile(new Point(Defines.AmazonExcelValues.BULLET_POINT_3  ,currentRow),bulletPoints.get(2));

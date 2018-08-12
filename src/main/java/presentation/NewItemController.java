@@ -163,8 +163,8 @@ public class NewItemController implements Initializable {
         } catch (IOException e) {
             e.printStackTrace();
         }
+        //TODO REMOVE
 
-
-        //stage.close();
+        stage.close();
     }
 }
