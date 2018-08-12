@@ -5,6 +5,9 @@ import dao.DAOBulletpoint;
 import dao.DAOGeneral;
 import dao.DAOParentSKU;
 import defines.Defines;
+import javafx.concurrent.Task;
+import javafx.scene.control.ProgressBar;
+import presentation.ExcelGeneratorController;
 
 import java.awt.*;
 import java.io.IOException;
@@ -18,12 +21,34 @@ public class MainLogic {
     public void action(String inputPath, String material, String modellMaterial, String price, String shippingOption) throws IOException {
         ArrayList<PhoneCover> list = getListOfAllPhoneCovers(inputPath);
 
-        try {
-            writeAllCovers(list, material, modellMaterial, transferPrice(price), shippingOption);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+
+            Task task = new Task<Void>() {
+                @Override
+                protected Void call() throws Exception {
+                    return null;
+                }
+
+                @Override
+                public void run() {
+
+                    try {
+                        writeAllCovers(list, material, modellMaterial, transferPrice(price), shippingOption);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    } catch (SQLException e) {
+                        e.printStackTrace();
+                    }
+                }
+            };
+            ProgressBar bar = new ProgressBar();
+
+            bar.progressProperty().bind(task.progressProperty());
+
+            new Thread(task).start();
+
+
     }
+
 
     private void fillFirstLine(String parent, ArrayList<String> generalInformation) throws IOException {
         excelWriter.openFile(System.getProperty("user.home")+"\\Desktop\\bling.xlsx");
@@ -88,10 +113,12 @@ public class MainLogic {
             PhoneCover currentItem = listOfAllPhoneCovers.get(i);
             String sku = generateSKU(material, currentItem);
             FTPImageReader ftpImageReader = new FTPImageReader();
+            ftpImageReader.openFTPConnection();
             ArrayList<String> imagesURLs = ftpImageReader.checkImages(material, currentItem.getMotive(), currentItem.getPhoneName());
             for (int j = 0; j < imagesURLs.size(); j++) {
                excelWriter.writeXLSXFile(new Point(Defines.AmazonExcelValues.MAIN_IMAGE+j  ,currentRow), imagesURLs.get(j));
             }
+            ftpImageReader.closeFTPConnection();
             excelWriter.writeXLSXFile(new Point(Defines.AmazonExcelValues.ITEM_SKU  ,currentRow), sku);
             excelWriter.writeXLSXFile(new Point(Defines.AmazonExcelValues.EAN  ,currentRow), "ENTER EAN");
             excelWriter.writeXLSXFile(new Point(Defines.AmazonExcelValues.BARCODE_TYPE  ,currentRow), Defines.GeneralInformation.BARCODE_TYPE);
