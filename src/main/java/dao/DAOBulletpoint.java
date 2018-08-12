@@ -34,6 +34,7 @@ public class DAOBulletpoint {
             String name = rs.getString("description");
             bulletpoints.add(name);
         }
+        con.close();
         return bulletpoints;
     }
 
