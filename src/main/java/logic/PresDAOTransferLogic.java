@@ -1,9 +1,6 @@
 package logic;
 
-import dao.DAOBulletpoint;
-import dao.DAODropdowns;
-import dao.DAOGeneral;
-import dao.DAOParentSKU;
+import dao.*;
 import javafx.collections.ObservableList;
 
 import java.sql.SQLException;
@@ -14,7 +11,7 @@ public class PresDAOTransferLogic {
 DAODropdowns daoDropdowns = new DAODropdowns();
 DAOBulletpoint daoBulletpoint = new DAOBulletpoint();
 DAOGeneral daoGeneral= new DAOGeneral();
-DAOParentSKU daoParentSKU = new DAOParentSKU();
+DAOShipping daoShipping = new DAOShipping();
 
 
     public ObservableList<String> getMaterials(){
@@ -63,15 +60,16 @@ DAOParentSKU daoParentSKU = new DAOParentSKU();
         return generalInformation;
     }
 
-
-    public String getParentSKU(String materialName, String modellMaterial){
-       String parentSKU = "";
+    public ObservableList<String> getShippingOption(){
+        ObservableList<String>  observableList = null;
         try {
-            parentSKU   = daoParentSKU.getParentSKU(materialName, modellMaterial);
+            observableList = daoShipping.getShippingOption();
+
         }catch (SQLException ex){
             ex.printStackTrace();
-            System.out.println("Fehler beim Auslesen des ParentSKU-Parameters"); }
-        return parentSKU;
+            System.out.println("Fehler beim Auslesen der Versandoptionen"); }
+        return observableList;
+
     }
 
 
