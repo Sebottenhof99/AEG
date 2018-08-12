@@ -46,6 +46,7 @@ public class DAOGeneral {
 
 
         }
+        con.close();
         return generalInformation;
     }
 }

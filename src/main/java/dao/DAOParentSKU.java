@@ -47,6 +47,7 @@ public class DAOParentSKU {
             parentSKU = rs.getString("parentSKU");
 
         }
+        con.close();
         return parentSKU;
     }
 

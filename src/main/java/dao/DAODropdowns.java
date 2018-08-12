@@ -27,6 +27,7 @@ public class DAODropdowns {
             String name = rs.getString("name");
             mainMaterials.add(name);
         }
+        con.close();
         return mainMaterials;
     }
 
@@ -53,6 +54,7 @@ public class DAODropdowns {
             String name = rs.getString("name");
             additionalMaterialParameters.add(name);
         }
+        con.close();
         return additionalMaterialParameters;
     }
 

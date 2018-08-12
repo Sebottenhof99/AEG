@@ -27,7 +27,7 @@ public class DAOShipping {
             String option = rs.getString("option");
             shippingOptiions.add(option);
         }
-
+        con.close();
         return shippingOptiions;
 
 
