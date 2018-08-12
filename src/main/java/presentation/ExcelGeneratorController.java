@@ -11,6 +11,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
@@ -22,7 +23,7 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-public class FXMLBspController {
+public class ExcelGeneratorController {
     public Button selectFileButton;
     public TextField selectedFile;
     public TextField articlename;
@@ -159,6 +160,7 @@ public class FXMLBspController {
     public void addNewMaterial(ActionEvent actionEvent) throws IOException {
         Stage stage = new Stage();
         Parent root = FXMLLoader.load(this.getClass().getClassLoader().getResource("fxml/newMaterial.fxml"));
+        stage.getIcons().add(new Image(this.getClass().getClassLoader().getResourceAsStream("sad.png")));
         stage.setScene(new Scene(root, 675, 750));
         stage.setTitle("Neues Material hinzufügen");
         stage.setMinWidth(675);

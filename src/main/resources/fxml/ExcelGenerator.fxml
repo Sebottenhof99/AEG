@@ -10,7 +10,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="500" minWidth="800" prefHeight="500.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="presentation.FXMLBspController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="500" minWidth="800" prefHeight="500.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="presentation.ExcelGeneratorController">
    <children>
       <MenuBar prefHeight="25.0" prefWidth="800.0">
         <menus>
