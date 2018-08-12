@@ -19,7 +19,7 @@ public class DbConnection {
     public boolean isDriverAvailable(){
         try {
 
-            Class.forName("com.mysql.jdbc.Driver");
+            Class.forName("com.mysql.cj.jdbc.Driver");
             System.out.println("Driver detected");
             return true;
         }
