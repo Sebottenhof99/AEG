@@ -31,7 +31,7 @@ public class DAODropdowns {
     }
 
 
-    public ObservableList getAddtitionalMaterialParameters(String materialName) throws SQLException {
+    public ObservableList<String> getAddtitionalMaterialParameters(String materialName) throws SQLException {
         ObservableList<String> additionalMaterialParameters  = FXCollections.observableArrayList();
 
         String getMaterialIdQuery = "SELECT name "  +

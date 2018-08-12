@@ -40,7 +40,6 @@ public class ExcelGeneratorController {
     public TextField variation;
     public Button startBUtton;
     public ComboBox shippingOption;
-//TODO Fill Shipping Option Box;
 
     PresDAOTransferLogic presDAOTransferLogic = new PresDAOTransferLogic();
 
@@ -69,6 +68,7 @@ public class ExcelGeneratorController {
 
             @Override
             public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+                setShippingOption();
                 startBUtton.setDisable(true);
                 presentAdditionalMaterialParameters();
                 setBulletpoints();
@@ -106,6 +106,14 @@ public class ExcelGeneratorController {
             comboBox2.setDisable(true);
             startBUtton.setDisable(false);
         }
+    }
+
+    public void setShippingOption(){
+
+        ObservableList<String> list = presDAOTransferLogic.getShippingOption();
+
+        shippingOption.setItems(list);
+
     }
 
     public void setBulletpoints() {
