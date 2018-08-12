@@ -6,80 +6,81 @@
 <?import javafx.scene.layout.*?>
 
 
+<?import java.net.URL?>
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="750.0" prefWidth="675.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="presentation.NewItemController" >
-   <children>
-      <Label layoutX="15.0" layoutY="15.0" prefHeight="28.0" prefWidth="330.0" text="Neues Material hinzufügen">
+    <children>
+      <Label layoutX="15.0" layoutY="15.0" prefHeight="28.0" prefWidth="230.0" text="Neues Material hinzufügen">
          <font>
             <Font size="19.0" />
          </font>
       </Label>
-       <Label layoutX="350.0" layoutY="15.0" prefHeight="28.0" prefWidth="275.0" text="Test" textFill="red">
+       <Label layoutX="265.0" layoutY="15.0" prefHeight="28.0" prefWidth="400.0" text="" textFill="red" fx:id="infobox">
            <font>
-               <Font size="22.0" />
+               <Font size="19.0" />
 
            </font>
        </Label>
-      <Label layoutX="15.0" layoutY="60.0" prefHeight="20.0" prefWidth="65.0" text="Material">
+      <Label layoutX="15.0" layoutY="60.0" prefHeight="20.0" prefWidth="65.0" text="Material" fx:id="materialLabel">
          <font>
             <Font size="18.0" />
          </font>
       </Label>
-      <Label layoutX="15.0" layoutY="100.0" prefHeight="27.0" prefWidth="136.0" text="Unterkategorien">
+      <Label layoutX="15.0" layoutY="100.0" prefHeight="27.0" prefWidth="136.0" text="Unterkategorien" fx:id="subCategoryLabel">
          <font>
             <Font size="18.0" />
          </font>
       </Label>
-      <Label layoutX="15.0" layoutY="140.0" prefHeight="27.0" prefWidth="136.0" text="Bullet Point1">
+      <Label layoutX="15.0" layoutY="140.0" prefHeight="27.0" prefWidth="136.0" text="Bullet Point1" fx:id="bp1Label">
          <font>
             <Font size="18.0" />
          </font>
       </Label>
-      <Label layoutX="15.0" layoutY="260.0" prefHeight="27.0" prefWidth="136.0" text="BulletPoint4">
+      <Label layoutX="15.0" layoutY="260.0" prefHeight="27.0" prefWidth="136.0" text="BulletPoint4" fx:id="bp4Label">
          <font>
             <Font size="18.0" />
          </font>
       </Label>
-      <Label layoutX="15.0" layoutY="220.0" prefHeight="27.0" prefWidth="136.0" text="Bullet Point3">
+      <Label layoutX="15.0" layoutY="220.0" prefHeight="27.0" prefWidth="136.0" text="Bullet Point3" fx:id="bp3Label">
          <font>
             <Font size="18.0" />
          </font>
       </Label>
-      <Label layoutX="15.0" layoutY="180.0" prefHeight="27.0" prefWidth="136.0" text="Bullet Point2">
+      <Label layoutX="15.0" layoutY="180.0" prefHeight="27.0" prefWidth="136.0" text="Bullet Point2" fx:id="bp2Label">
          <font>
             <Font size="18.0" />
          </font>
       </Label>
-      <Label layoutX="15.0" layoutY="300.0" prefHeight="27.0" prefWidth="136.0" text="BulletPoint5">
+      <Label layoutX="15.0" layoutY="300.0" prefHeight="27.0" prefWidth="136.0" text="BulletPoint5" fx:id="bp5Label">
          <font>
             <Font size="18.0" />
          </font>
       </Label>
-      <Label layoutX="15.0" layoutY="340.0" prefHeight="27.0" prefWidth="136.0" text="Artikelname">
+      <Label layoutX="15.0" layoutY="340.0" prefHeight="27.0" prefWidth="136.0" text="Artikelname" fx:id="articleNameLabel">
          <font>
             <Font size="18.0" />
          </font>
       </Label>
-      <Label layoutX="15.0" layoutY="380.0" prefHeight="27.0" prefWidth="136.0" text="Variation">
+      <Label layoutX="15.0" layoutY="380.0" prefHeight="27.0" prefWidth="136.0" text="Variation" fx:id="variationLabel">
          <font>
             <Font size="18.0" />
          </font>
       </Label>
-      <Label layoutX="15.0" layoutY="420.0" prefHeight="27.0" prefWidth="136.0" text="Parent SKU">
+      <Label layoutX="15.0" layoutY="420.0" prefHeight="27.0" prefWidth="136.0" text="Parent SKU" fx:id="parentSkuLabel">
          <font>
             <Font size="18.0" />
          </font>
       </Label>
-      <Label layoutX="15.0" layoutY="460.0" prefHeight="27.0" prefWidth="136.0" text="Suchkategorie">
+      <Label layoutX="15.0" layoutY="460.0" prefHeight="27.0" prefWidth="136.0" text="Suchkategorie" fx:id="browseNodeLabel">
          <font>
             <Font size="18.0" />
          </font>
       </Label>
-      <Label layoutX="15.0" layoutY="500.0" prefHeight="27.0" prefWidth="136.0" text="Suchwörter">
+      <Label layoutX="15.0" layoutY="500.0" prefHeight="27.0" prefWidth="136.0" text="Suchwörter" fx:id="searchKeywordLabel">
          <font>
             <Font size="18.0" />
          </font>
       </Label>
-      <Label layoutX="15.0" layoutY="540.0" prefHeight="27.0" prefWidth="136.0" text="Beschreibung">
+      <Label layoutX="15.0" layoutY="540.0" prefHeight="27.0" prefWidth="136.0" text="Beschreibung" fx:id="descriptionLabel">
          <font>
             <Font size="18.0" />
          </font>
@@ -97,6 +98,7 @@
        <TextField fx:id="searchKeywords" layoutX="160.0" layoutY="500.0" maxWidth="501.0" prefWidth="500.0" promptText="Suchbegriffe Bsp. Handy, Hülle, Schutz, Motiv, Bunt,..."/>
        <TextField fx:id="browseNode" layoutX="160.0" layoutY="460.0" maxWidth="501.0" prefWidth="500.0" promptText="Suchkategorie aus Amazon" />
        <TextArea fx:id="description" layoutX="160.0" layoutY="540.0" prefHeight="150.0" prefWidth="500.0" promptText="Beschreibung"/>
-      <Button fx:id="add" layoutX="160.0" layoutY="705.0" mnemonicParsing="false" onAction="#addNewMaterial" prefHeight="25.0" prefWidth="167.0" text="Hinzufügen" />
+      <Button fx:id="add" layoutX="160.0" layoutY="705.0" mnemonicParsing="false" onAction="#addNewMaterial" prefHeight="25.0" prefWidth="200.0" text="Hinzufügen" />
+      <Button fx:id="close" layoutX="400.0" layoutY="705.0" mnemonicParsing="false" onAction="#closeWindow" prefHeight="25.0" prefWidth="200.0" text="Schließen" />
    </children>
 </AnchorPane>

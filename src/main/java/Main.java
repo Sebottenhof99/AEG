@@ -31,7 +31,7 @@ static String path = "";
         primaryStage.setScene(new Scene(root, 100, 57));
         primaryStage.setTitle("FXML-Beispiel");
         primaryStage.setMinWidth(800);
-        primaryStage.setMinHeight(600);
+        primaryStage.setMinHeight(300);
         primaryStage.show();
 
         }

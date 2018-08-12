@@ -70,6 +70,8 @@ public class FXMLBspController {
                 presentAdditionalMaterialParameters();
                 setBulletpoints();
                 setGeneralInformation();
+                Stage stage = (Stage) startBUtton.getScene().getWindow();
+                stage.setMinHeight(600);
                 detailedAnchorPane.setVisible(true);
 
             }
