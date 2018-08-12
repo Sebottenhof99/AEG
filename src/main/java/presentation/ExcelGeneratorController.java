@@ -1,12 +1,17 @@
 package presentation;
 
+import data.DbConnectionSingletonFactory;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
@@ -15,9 +20,10 @@ import logic.PresDAOTransferLogic;
 
 import java.io.File;
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.ArrayList;
 
-public class FXMLBspController {
+public class ExcelGeneratorController {
     public Button selectFileButton;
     public TextField selectedFile;
     public TextField articlename;
@@ -33,6 +39,8 @@ public class FXMLBspController {
     public TextField browsenumber;
     public TextField variation;
     public Button startBUtton;
+    public ComboBox shippingOption;
+//TODO Fill Shipping Option Box;
 
     PresDAOTransferLogic presDAOTransferLogic = new PresDAOTransferLogic();
 
@@ -65,6 +73,8 @@ public class FXMLBspController {
                 presentAdditionalMaterialParameters();
                 setBulletpoints();
                 setGeneralInformation();
+                Stage stage = (Stage) startBUtton.getScene().getWindow();
+                stage.setMinHeight(600);
                 detailedAnchorPane.setVisible(true);
 
             }
@@ -141,12 +151,35 @@ public class FXMLBspController {
     public void startProgramm(ActionEvent actionEvent) throws IOException {
         MainLogic mainLogic = new MainLogic();
         if (comboBox2.isDisabled()) {
-            mainLogic.action(selectedFile.getText(), comboBox1.getSelectionModel().getSelectedItem().toString(), null, priceField.getText());
+            mainLogic.action(selectedFile.getText(), comboBox1.getSelectionModel().getSelectedItem().toString(), null, priceField.getText(), shippingOption.getSelectionModel().getSelectedItem().toString());
 
         }
         else{
-            mainLogic.action(selectedFile.getText(), comboBox1.getSelectionModel().getSelectedItem().toString(), comboBox2.getSelectionModel().getSelectedItem().toString(), priceField.getText());
+            mainLogic.action(selectedFile.getText(), comboBox1.getSelectionModel().getSelectedItem().toString(), comboBox2.getSelectionModel().getSelectedItem().toString(), priceField.getText(), shippingOption.getSelectionModel().getSelectedItem().toString());
         }
+    }
+
+    public void addNewMaterial(ActionEvent actionEvent) throws IOException {
+        Stage stage = new Stage();
+        Parent root = FXMLLoader.load(this.getClass().getClassLoader().getResource("fxml/newMaterial.fxml"));
+        stage.getIcons().add(new Image(this.getClass().getClassLoader().getResourceAsStream("sad.png")));
+        stage.setScene(new Scene(root, 675, 750));
+        stage.setTitle("Neues Material hinzufügen");
+        stage.setMinWidth(675);
+        stage.setMinHeight(750);
+        stage.show();
+
+    }
+
+    public void closeProgramm(ActionEvent actionEvent) {
+        try {
+            DbConnectionSingletonFactory.getConnection().close();
+            System.out.println("Connection closed");
+        } catch (SQLException e) {
+            System.out.println("Could not close connection");
+        }
+        System.out.println("Shutting down");
+        System.exit(0);
     }
 }
 

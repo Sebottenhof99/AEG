@@ -10,18 +10,18 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="500" minWidth="800" prefHeight="500.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="presentation.FXMLBspController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="500" minWidth="800" prefHeight="500.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="presentation.ExcelGeneratorController">
    <children>
       <MenuBar prefHeight="25.0" prefWidth="800.0">
         <menus>
           <Menu mnemonicParsing="false" text="File">
             <items>
-              <MenuItem mnemonicParsing="false" text="Close" />
+              <MenuItem mnemonicParsing="false" text="Close" onAction="#closeProgramm"/>
             </items>
           </Menu>
           <Menu mnemonicParsing="false" text="Edit">
             <items>
-              <MenuItem mnemonicParsing="false" text="Delete" />
+              <MenuItem mnemonicParsing="false" text="Neues Material" onAction="#addNewMaterial" />
             </items>
           </Menu>
           <Menu mnemonicParsing="false" text="Help">
@@ -39,14 +39,20 @@
          </font>
       </Label>
       <ComboBox fx:id="comboBox1" layoutX="110.0" layoutY="80.0" prefWidth="150.0" promptText="Bitte auswählen" />
-      <ComboBox fx:id="comboBox2" layoutX="300.0" layoutY="80.0" prefWidth="150.0" promptText="Bitte auswählen" />
+      <ComboBox fx:id="comboBox2" layoutX="350.0" layoutY="80.0" prefWidth="150.0" promptText="Bitte auswählen" />
       <Label layoutX="15.0" layoutY="120.0" prefHeight="25.0" prefWidth="40.0" text="Preis">
-         <font>
-            <Font size="16.0" />
-         </font>
+          <font>
+              <Font size="16.0" />
+          </font>
       </Label>
-      <TextField fx:id="priceField" layoutX="110.0" layoutY="120.0" promptText="Bsp: 6,45" />
-      <AnchorPane fx:id="detailedAnchorPane" layoutY="160.0" prefHeight="340.0" prefWidth="800.0" visible="false">
+       <Label layoutX="280.0" layoutY="120.0" prefHeight="25.0" prefWidth="70.0" text="Versand">
+           <font>
+               <Font size="16.0" />
+           </font>
+       </Label>
+       <TextField fx:id="priceField" layoutX="110.0" layoutY="120.0" promptText="Bsp: 6,45" />
+       <ComboBox fx:id="shippingOption" layoutX="350.0" layoutY="120.0" prefWidth="150.0" promptText="Bitte auswählen" />
+       <AnchorPane fx:id="detailedAnchorPane" layoutY="160.0" prefHeight="340.0" prefWidth="800.0" visible="false">
          <children>
             <Label layoutX="15.0" layoutY="40.0" prefHeight="25.0" prefWidth="91.0" text="Bullet Points">
                <font>
