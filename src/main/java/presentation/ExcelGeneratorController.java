@@ -149,13 +149,21 @@ public class ExcelGeneratorController {
 
 
     public void startProgramm(ActionEvent actionEvent) throws IOException {
+        String shippingOptionValue;
+        if(shippingOption.getSelectionModel().isEmpty()){
+            shippingOptionValue = null;
+        }
+        else {
+            shippingOptionValue = shippingOption.getSelectionModel().getSelectedItem().toString();
+        }
         MainLogic mainLogic = new MainLogic();
         if (comboBox2.isDisabled()) {
-            mainLogic.action(selectedFile.getText(), comboBox1.getSelectionModel().getSelectedItem().toString(), null, priceField.getText(), shippingOption.getSelectionModel().getSelectedItem().toString());
+            mainLogic.action(selectedFile.getText(), comboBox1.getSelectionModel().getSelectedItem().toString(), null, priceField.getText(), shippingOptionValue);
 
         }
         else{
-            mainLogic.action(selectedFile.getText(), comboBox1.getSelectionModel().getSelectedItem().toString(), comboBox2.getSelectionModel().getSelectedItem().toString(), priceField.getText(), shippingOption.getSelectionModel().getSelectedItem().toString());
+
+            mainLogic.action(selectedFile.getText(), comboBox1.getSelectionModel().getSelectedItem().toString(), comboBox2.getSelectionModel().getSelectedItem().toString(), priceField.getText(), shippingOptionValue);
         }
     }
 
