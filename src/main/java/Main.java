@@ -18,9 +18,7 @@ import java.net.URL;
 import java.util.Iterator;
 
 public class Main extends Application {
-
-static String path = "";
-
+    
         public static void main(String[] args) throws IOException {
 
             launch(args);
