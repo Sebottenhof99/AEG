@@ -19,6 +19,7 @@ public class DAOAdditionNewItem {
 
         preparedStatement.execute();
         preparedStatement.close();
+        con.close();
 
     }
 
@@ -40,6 +41,8 @@ public class DAOAdditionNewItem {
         while (rs.next()) {
             id  = rs.getInt("id");
         }
+
+        con.close();
         return id;
 
     }
@@ -59,6 +62,8 @@ public class DAOAdditionNewItem {
         while (rs.next()) {
             id  = rs.getInt("id");
         }
+
+        con.close();
         return id;
 
 
@@ -77,6 +82,8 @@ public class DAOAdditionNewItem {
             preparedStatement.execute();
             preparedStatement.close();
         }
+
+        con.close();
     }
 
 
@@ -95,6 +102,7 @@ public class DAOAdditionNewItem {
 
             preparedStatement.execute();
             preparedStatement.close();
+        con.close();
 
 
     }
@@ -118,6 +126,7 @@ public class DAOAdditionNewItem {
 
         preparedStatement.execute();
         preparedStatement.close();
+        con.close();
 
 
     }
@@ -141,6 +150,7 @@ public class DAOAdditionNewItem {
             preparedStatement.execute();
             preparedStatement.close();
         }
+        con.close();
 
     }
 
@@ -158,5 +168,6 @@ public class DAOAdditionNewItem {
         preparedStatement.setString(3,parentSku);
         preparedStatement.execute();
         preparedStatement.close();
+        con.close();
     }
 }
