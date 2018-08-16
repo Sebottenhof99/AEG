@@ -134,32 +134,85 @@ this.parentSku.setDisable(true);
 
         boolean isDataMissing = false;
 
-      //  subCategoryLabel.setTextFill(Color.GREEN);
-        if (!isDataFilled(material, materialLabel) |
-                !isDataFilled(bulletPoint1, bp1Label) |
-                !isDataFilled(bulletPoint2, bp2Label) |
-                !isDataFilled(bulletPoint3, bp3Label) |
-                !isDataFilled(bulletPoint4, bp4Label) |
-                !isDataFilled(bulletPoint5, bp5Label) |
-                !isDataFilled(articleName, articleNameLabel) |
-                !isDataFilled(parentSku, parentSkuLabel) |
-                !isDataFilled(browseNode, browseNodeLabel) |
-                !isDataFilled(searchKeywords, searchKeywordLabel) |
-                !isDataFilled(description, descriptionLabel) |
-                !isDataFilled(variationDropdown, variationLabel)) {
-            isDataMissing = true;
-            System.out.println("NOT");
-        }
-        System.out.println(isDataMissing);
+
+        if(!parentSku.isDisabled()){
+
+            //  subCategoryLabel.setTextFill(Color.GREEN);
+                if (!isDataFilled(material, materialLabel) |
+                    !isDataFilled(bulletPoint1, bp1Label) |
+                    !isDataFilled(bulletPoint2, bp2Label) |
+                    !isDataFilled(bulletPoint3, bp3Label) |
+                    !isDataFilled(bulletPoint4, bp4Label) |
+                    !isDataFilled(bulletPoint5, bp5Label) |
+                    !isDataFilled(articleName, articleNameLabel) |
+                    !isDataFilled(parentSku, parentSkuLabel) |
+                    !isDataFilled(browseNode, browseNodeLabel) |
+                    !isDataFilled(searchKeywords, searchKeywordLabel) |
+                    !isDataFilled(description, descriptionLabel) |
+                    !isDataFilled(variationDropdown, variationLabel)) {
+                isDataMissing = true;
+                System.out.println("NOT");
+            }
+            System.out.println(isDataMissing);
 //todo return back
-        if (false) {
-            infobox.setTextFill(Color.RED);
-            infobox.setText("Bitte alle Pflichtfelder eintragen");
-        } else {
-            infobox.setTextFill(Color.ORANGE);
-            infobox.setText("Die Daten werden übertragen. Bitte warten...");
-            processData();
+            if (isDataMissing) {
+                infobox.setTextFill(Color.RED);
+                infobox.setText("Bitte alle Pflichtfelder eintragen");
+            } else {
+                infobox.setTextFill(Color.ORANGE);
+                infobox.setText("Die Daten werden übertragen. Bitte warten...");
+                if (processData()){
+                    infobox.setTextFill(Color.GREEN);
+                    infobox.setText("Das neue Material wurde erfolgreich hinzugefügt");
+                }else{
+                    infobox.setTextFill(Color.RED);
+                    infobox.setText("Ein Fehler ist aufgetreten. Überprüfen Sie Ihre Internetverbindung und starten Sie das Programm neu ");
+                }
+            }
+
+        }else{
+            //  subCategoryLabel.setTextFill(Color.GREEN);
+            if (!isDataFilled(material, materialLabel) |
+                    !isDataFilled(bulletPoint1, bp1Label) |
+                    !isDataFilled(bulletPoint2, bp2Label) |
+                    !isDataFilled(bulletPoint3, bp3Label) |
+                    !isDataFilled(bulletPoint4, bp4Label) |
+                    !isDataFilled(bulletPoint5, bp5Label) |
+                    !isDataFilled(articleName, articleNameLabel) |
+                    !isDataFilled(browseNode, browseNodeLabel) |
+                    !isDataFilled(searchKeywords, searchKeywordLabel) |
+                    !isDataFilled(description, descriptionLabel) |
+                    !isDataFilled(variationDropdown, variationLabel)|
+                    !isSubcategorieParentSKUFilled() ) {
+                isDataMissing = true;
+                System.out.println("NOT");
+            }
+            System.out.println(isDataMissing);
+//todo return back
+            if (isDataMissing) {
+                infobox.setTextFill(Color.RED);
+                infobox.setText("Bitte alle Pflichtfelder eintragen");
+            } else {
+                infobox.setTextFill(Color.ORANGE);
+                infobox.setText("Die Daten werden übertragen. Bitte warten...");
+                if (processData()){
+                    infobox.setTextFill(Color.GREEN);
+                    infobox.setText("Das neue Material wurde erfolgreich hinzugefügt");
+                }else{
+
+                    infobox.setTextFill(Color.RED);
+                    infobox.setText("Ein Fehler ist aufgetreten. Überprüfen Sie Ihre Internetverbindung und starten Sie das Programm neu ");
+                }
         }
+
+
+
+        }
+
+
+
+
+
     }
 
     private boolean processData(){
@@ -243,6 +296,27 @@ this.parentSku.setDisable(true);
         }
     }
 
+    public boolean isSubcategorieParentSKUFilled(){
+
+        boolean isDataFull = true;
+        for (int i = 0; i <subclassSet.size() ; i++) {
+            HBox hBox = (HBox)subclassSet.get(i);
+            Label subcat = (Label)hBox.getChildren().get(0);
+          TextField subcategorie =  (TextField) hBox.getChildren().get(1);
+
+            Label parentLabel= (Label)hBox.getChildren().get(2);
+            TextField parentTextField =  (TextField) hBox.getChildren().get(3);
+
+            if (!isDataFilled(subcategorie,subcat)|!isDataFilled(parentTextField,parentLabel)){
+
+                isDataFull=false ;}
+
+
+        }
+
+return isDataFull;
+
+    }
 
     public void closeWindow(ActionEvent actionEvent) {
         Stage stage = (Stage) close.getScene().getWindow();
