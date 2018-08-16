@@ -141,7 +141,7 @@ public class FTPImageReader {
         }
 
         if(fullDirectory == null || fullDirectory.isEmpty()){
-            
+
             System.out.println("Could not find full directory");
             urls.add("Links für Material=" + material +" Motiv=" + motiv + " Modell=" + model + "nicht gefunden");
             urls.add("Bitte manuell nachtragen");

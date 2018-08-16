@@ -5,9 +5,10 @@ import dao.DAOBulletpoint;
 import dao.DAOGeneral;
 import dao.DAOParentSKU;
 import defines.Defines;
+import javafx.application.Platform;
 import javafx.concurrent.Task;
 import javafx.scene.control.ProgressBar;
-import presentation.ExcelGeneratorController;
+import javafx.stage.Stage;
 
 import java.awt.*;
 import java.io.IOException;
@@ -18,33 +19,36 @@ public class MainLogic {
 
     ExcelWriter excelWriter = new ExcelWriter();
 
-    public void action(String inputPath, String material, String modellMaterial, String price, String shippingOption) throws IOException {
+    public void action(String inputPath, String material, String modellMaterial, String price, String shippingOption) throws Exception {
         ArrayList<PhoneCover> list = getListOfAllPhoneCovers(inputPath);
+        EANReader e = new EANReader(System.getProperty("user.home") + "/Desktop/EAN.xlsx");
 
+        synchronized(EANReader.class){
+            while (e.starttt(list)){
 
-            Task task = new Task<Void>() {
-                @Override
-                protected Void call() throws Exception {
-                    return null;
+                writeAllCovers(list, material, modellMaterial, transferPrice(price), shippingOption, EANReader.EANS);
+                break;
+            }
+
+        }
+
+     /*   Platform.runLater(new Runnable() {
+            @Override
+            public void run() {
+
+                try {
+                    writeAllCovers(list, material, modellMaterial, transferPrice(price), shippingOption);
+                } catch (SQLException e1) {
+                    e1.printStackTrace();
+                } catch (IOException e1) {
+                    e1.printStackTrace();
                 }
 
-                @Override
-                public void run() {
 
-                    try {
-                        writeAllCovers(list, material, modellMaterial, transferPrice(price), shippingOption);
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    } catch (SQLException e) {
-                        e.printStackTrace();
-                    }
-                }
-            };
-            ProgressBar bar = new ProgressBar();
+            }
+        });
 
-            bar.progressProperty().bind(task.progressProperty());
-
-            new Thread(task).start();
+*/
 
 
     }
@@ -95,10 +99,12 @@ public class MainLogic {
 
     }
 
-    public void writeAllCovers(ArrayList<PhoneCover> listOfAllPhoneCovers, String material, String modellMaterial, double price, String shippingOption) throws IOException, SQLException {
+    public void writeAllCovers(ArrayList<PhoneCover> listOfAllPhoneCovers, String material, String modellMaterial, double price, String shippingOption, ArrayList<String> eans) throws SQLException, IOException {
         System.out.println("Start writing files");
         DAOBulletpoint daoBulletpoint = new DAOBulletpoint();
         ArrayList<String> bulletPoints = daoBulletpoint.getBulletpoints(material);
+
+
 
         DAOParentSKU daoParentSKU = new DAOParentSKU();
         final String parentSKU = daoParentSKU.getParentSKU(material,modellMaterial);
@@ -108,6 +114,7 @@ public class MainLogic {
 
         fillFirstLine(parentSKU, generalInformation);
 
+
         for (int i = 0; i < listOfAllPhoneCovers.size(); i++) {
             int currentRow = i+4;
             PhoneCover currentItem = listOfAllPhoneCovers.get(i);
@@ -115,7 +122,7 @@ public class MainLogic {
             FTPImageReader ftpImageReader = new FTPImageReader();
 
             excelWriter.writeXLSXFile(new Point(Defines.AmazonExcelValues.ITEM_SKU  ,currentRow), sku);
-            excelWriter.writeXLSXFile(new Point(Defines.AmazonExcelValues.EAN  ,currentRow), "ENTER EAN");
+            excelWriter.writeXLSXFile(new Point(Defines.AmazonExcelValues.EAN  ,currentRow), eans.get(i));
             excelWriter.writeXLSXFile(new Point(Defines.AmazonExcelValues.BARCODE_TYPE  ,currentRow), Defines.GeneralInformation.BARCODE_TYPE);
             excelWriter.writeXLSXFile(new Point(Defines.AmazonExcelValues.BRAND_NAME  ,currentRow), Defines.GeneralInformation.BRAND);
             excelWriter.writeXLSXFile(new Point(Defines.AmazonExcelValues.MANUFACTURER_NAME  ,currentRow), Defines.GeneralInformation.MANUFACTURER);
@@ -176,6 +183,11 @@ public class MainLogic {
         System.out.println("FINISH");
         excelWriter.closeFile(System.getProperty("user.home") + "\\Desktop\\bling222222.xlsx");
 
+    }
+
+    private ArrayList<String> prepareEANs(ArrayList<PhoneCover> listOfAllPhoneCovers) {
+
+        return null;
     }
 
     public String generateSKU(String material, PhoneCover cover ){

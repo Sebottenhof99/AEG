@@ -156,7 +156,7 @@ public class ExcelGeneratorController {
     }
 
 
-    public void startProgramm(ActionEvent actionEvent) throws IOException {
+    public void startProgramm(ActionEvent actionEvent) throws Exception {
         String shippingOptionValue;
         if(shippingOption.getSelectionModel().isEmpty()){
             shippingOptionValue = null;
