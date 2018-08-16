@@ -94,4 +94,21 @@ public class Defines {
         public final static String PASSWORD = "ftp.password";
 
     }
+    public class addNewItem{
+        public final static int MATERIAL = 0;
+
+        public final static int BULLET_POINT1 = 1;
+        public final static int BULLET_POINT2 = 2;
+        public final static int BULLET_POINT3 = 3;
+        public final static int BULLET_POINT4 = 4;
+        public final static int BULLET_POINT5 = 5;
+        public final static int ARTIKELNAME = 6;
+        public final static int VARIATION = 7;
+        public final static int PARENT_SKU = 11;
+        public final static int SUCHKATEGORIE = 8;
+        public final static int SUCHWOERTER = 9;
+        public final static int BESCHEIBUNG = 10;
+
+    }
+
 }

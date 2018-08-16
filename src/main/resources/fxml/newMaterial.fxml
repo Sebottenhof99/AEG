@@ -1,104 +1,117 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.text.*?>
-<?import javafx.scene.control.*?>
-<?import java.lang.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 
-
-<?import java.net.URL?>
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="750.0" prefWidth="675.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="presentation.NewItemController" >
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="821.0" prefWidth="711.0" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="presentation.NewItemController">
     <children>
       <Label layoutX="15.0" layoutY="15.0" prefHeight="28.0" prefWidth="230.0" text="Neues Material hinzufügen">
          <font>
             <Font size="19.0" />
          </font>
       </Label>
-       <Label layoutX="265.0" layoutY="15.0" prefHeight="28.0" prefWidth="400.0" text="" textFill="red" fx:id="infobox">
-           <font>
-               <Font size="19.0" />
-
-           </font>
-       </Label>
-      <Label layoutX="15.0" layoutY="60.0" prefHeight="20.0" prefWidth="65.0" text="Material" fx:id="materialLabel">
+       <Label fx:id="infobox" layoutX="265.0" layoutY="15.0" prefHeight="28.0" prefWidth="400.0" text="" textFill="red" />
+      <Label fx:id="materialLabel" layoutX="20.0" layoutY="54.0" prefHeight="20.0" prefWidth="65.0" text="Material">
          <font>
             <Font size="18.0" />
          </font>
       </Label>
-      <Label layoutX="15.0" layoutY="100.0" prefHeight="27.0" prefWidth="136.0" text="Unterkategorien" fx:id="subCategoryLabel">
+      <Label fx:id="bp1Label" layoutX="20.0" layoutY="96.0" prefHeight="27.0" prefWidth="136.0" text="Bullet Point1">
          <font>
             <Font size="18.0" />
          </font>
       </Label>
-      <Label layoutX="15.0" layoutY="140.0" prefHeight="27.0" prefWidth="136.0" text="Bullet Point1" fx:id="bp1Label">
+      <Label fx:id="bp4Label" layoutX="20.0" layoutY="216.0" prefHeight="27.0" prefWidth="136.0" text="BulletPoint4">
          <font>
             <Font size="18.0" />
          </font>
       </Label>
-      <Label layoutX="15.0" layoutY="260.0" prefHeight="27.0" prefWidth="136.0" text="BulletPoint4" fx:id="bp4Label">
+      <Label fx:id="bp3Label" layoutX="20.0" layoutY="176.0" prefHeight="27.0" prefWidth="136.0" text="Bullet Point3">
          <font>
             <Font size="18.0" />
          </font>
       </Label>
-      <Label layoutX="15.0" layoutY="220.0" prefHeight="27.0" prefWidth="136.0" text="Bullet Point3" fx:id="bp3Label">
+      <Label fx:id="bp2Label" layoutX="20.0" layoutY="136.0" prefHeight="27.0" prefWidth="136.0" text="Bullet Point2">
          <font>
             <Font size="18.0" />
          </font>
       </Label>
-      <Label layoutX="15.0" layoutY="180.0" prefHeight="27.0" prefWidth="136.0" text="Bullet Point2" fx:id="bp2Label">
+      <Label fx:id="bp5Label" layoutX="20.0" layoutY="256.0" prefHeight="27.0" prefWidth="136.0" text="BulletPoint5">
          <font>
             <Font size="18.0" />
          </font>
       </Label>
-      <Label layoutX="15.0" layoutY="300.0" prefHeight="27.0" prefWidth="136.0" text="BulletPoint5" fx:id="bp5Label">
+      <Label fx:id="articleNameLabel" layoutX="20.0" layoutY="296.0" prefHeight="27.0" prefWidth="136.0" text="Artikelname">
          <font>
             <Font size="18.0" />
          </font>
       </Label>
-      <Label layoutX="15.0" layoutY="340.0" prefHeight="27.0" prefWidth="136.0" text="Artikelname" fx:id="articleNameLabel">
+      <Label fx:id="variationLabel" layoutX="20.0" layoutY="336.0" prefHeight="27.0" prefWidth="136.0" text="Variation">
          <font>
             <Font size="18.0" />
          </font>
       </Label>
-      <Label layoutX="15.0" layoutY="380.0" prefHeight="27.0" prefWidth="136.0" text="Variation" fx:id="variationLabel">
+      <Label fx:id="parentSkuLabel" layoutX="20.0" layoutY="376.0" prefHeight="27.0" prefWidth="136.0" text="Parent SKU">
          <font>
             <Font size="18.0" />
          </font>
       </Label>
-      <Label layoutX="15.0" layoutY="420.0" prefHeight="27.0" prefWidth="136.0" text="Parent SKU" fx:id="parentSkuLabel">
+      <Label fx:id="browseNodeLabel" layoutX="20.0" layoutY="416.0" prefHeight="27.0" prefWidth="136.0" text="Suchkategorie">
          <font>
             <Font size="18.0" />
          </font>
       </Label>
-      <Label layoutX="15.0" layoutY="460.0" prefHeight="27.0" prefWidth="136.0" text="Suchkategorie" fx:id="browseNodeLabel">
+      <Label fx:id="searchKeywordLabel" layoutX="20.0" layoutY="456.0" prefHeight="27.0" prefWidth="136.0" text="Suchwörter">
          <font>
             <Font size="18.0" />
          </font>
       </Label>
-      <Label layoutX="15.0" layoutY="500.0" prefHeight="27.0" prefWidth="136.0" text="Suchwörter" fx:id="searchKeywordLabel">
+      <Label fx:id="descriptionLabel" layoutX="20.0" layoutY="498.0" prefHeight="27.0" prefWidth="136.0" text="Beschreibung">
          <font>
             <Font size="18.0" />
          </font>
       </Label>
-      <Label layoutX="15.0" layoutY="540.0" prefHeight="27.0" prefWidth="136.0" text="Beschreibung" fx:id="descriptionLabel">
-         <font>
-            <Font size="18.0" />
-         </font>
-      </Label>
-      <TextField fx:id="material" layoutX="160.0" layoutY="60.0" maxWidth="501.0" prefWidth="500.0" promptText="Bsp Leder"/>
-       <TextField layoutX="160.0" layoutY="100.0" maxWidth="501.0" prefHeight="25.0" prefWidth="500.0" fx:id="subMaterial" promptText="Bsp. Samsung, Apple, Sony" />
-       <TextField fx:id="bulletPoint1" layoutX="160.0" layoutY="140.0" maxWidth="501.0" prefWidth="500.0"  promptText="Bullet Point 1"/>
-       <TextField fx:id="bulletPoint2" layoutX="160.0" layoutY="180.0" maxWidth="501.0" prefWidth="500.0" promptText="Bullet Point 2" />
-       <TextField fx:id="bulletPoint3" layoutX="160.0" layoutY="220.0" maxWidth="501.0" prefWidth="500.0" promptText="Bullet Point 3" />
-       <TextField fx:id="bulletPoint4" layoutX="160.0" layoutY="260.0" maxWidth="501.0" prefWidth="500.0" promptText="Bullet Point 4"/>
-       <TextField fx:id="bulletPoint5" layoutX="160.0" layoutY="300.0" maxWidth="501.0" prefWidth="500.0"  promptText="Bullet Point 5"/>
-       <TextField fx:id="articleName" layoutX="160.0" layoutY="340.0" maxWidth="501.0" prefWidth="500.0" promptText="Bsp. Handy Lux Schutz Hülle Case Cover Bumper für" />
-       <ComboBox fx:id="variationDropdown" layoutX="160.0" layoutY="380.0" prefWidth="500.0" promptText="Bitte auswählen"/>
-       <TextField fx:id="parentSku" layoutX="160.0" layoutY="420.0" maxWidth="501.0" prefWidth="500.0" promptText="Parent SKU Bsp. FLIP_Samsung_2017"/>
-       <TextField fx:id="searchKeywords" layoutX="160.0" layoutY="500.0" maxWidth="501.0" prefWidth="500.0" promptText="Suchbegriffe Bsp. Handy, Hülle, Schutz, Motiv, Bunt,..."/>
-       <TextField fx:id="browseNode" layoutX="160.0" layoutY="460.0" maxWidth="501.0" prefWidth="500.0" promptText="Suchkategorie aus Amazon" />
-       <TextArea fx:id="description" layoutX="160.0" layoutY="540.0" prefHeight="150.0" prefWidth="500.0" promptText="Beschreibung"/>
-      <Button fx:id="add" layoutX="160.0" layoutY="705.0" mnemonicParsing="false" onAction="#addNewMaterial" prefHeight="25.0" prefWidth="200.0" text="Hinzufügen" />
-      <Button fx:id="close" layoutX="400.0" layoutY="705.0" mnemonicParsing="false" onAction="#closeWindow" prefHeight="25.0" prefWidth="200.0" text="Schließen" />
+      <TextField fx:id="material" layoutX="165.0" layoutY="54.0" maxWidth="501.0" prefWidth="500.0" promptText="Bsp Leder" />
+       <TextField fx:id="bulletPoint1" layoutX="165.0" layoutY="96.0" maxWidth="501.0" prefWidth="500.0" promptText="Bullet Point 1" />
+       <TextField fx:id="bulletPoint2" layoutX="165.0" layoutY="136.0" maxWidth="501.0" prefWidth="500.0" promptText="Bullet Point 2" />
+       <TextField fx:id="bulletPoint3" layoutX="165.0" layoutY="176.0" maxWidth="501.0" prefWidth="500.0" promptText="Bullet Point 3" />
+       <TextField fx:id="bulletPoint4" layoutX="165.0" layoutY="216.0" maxWidth="501.0" prefWidth="500.0" promptText="Bullet Point 4" />
+       <TextField fx:id="bulletPoint5" layoutX="165.0" layoutY="256.0" maxWidth="501.0" prefWidth="500.0" promptText="Bullet Point 5" />
+       <TextField fx:id="articleName" layoutX="165.0" layoutY="296.0" maxWidth="501.0" prefWidth="500.0" promptText="Bsp. Handy Lux Schutz Hülle Case Cover Bumper für" />
+       <ComboBox fx:id="variationDropdown" layoutX="165.0" layoutY="336.0" prefWidth="500.0" promptText="Bitte auswählen" />
+       <TextField fx:id="parentSku" layoutX="165.0" layoutY="376.0" maxWidth="501.0" prefWidth="500.0" promptText="Parent SKU Bsp. FLIP_Samsung_2017" />
+       <TextField fx:id="searchKeywords" layoutX="165.0" layoutY="456.0" maxWidth="501.0" prefWidth="500.0" promptText="Suchbegriffe Bsp. Handy, Hülle, Schutz, Motiv, Bunt,..." />
+       <TextField fx:id="browseNode" layoutX="165.0" layoutY="416.0" maxWidth="501.0" prefWidth="500.0" promptText="Suchkategorie aus Amazon" />
+       <TextArea fx:id="description" layoutX="165.0" layoutY="498.0" prefHeight="150.0" prefWidth="500.0" promptText="Beschreibung" />
+      <VBox layoutX="1.0" layoutY="655.0" prefHeight="167.0" prefWidth="710.0">
+         <children>
+            <VBox fx:id="SubclassVbox" alignment="TOP_CENTER" prefHeight="55.0" prefWidth="585.0">
+               <children>
+                  <HBox alignment="TOP_CENTER" prefHeight="36.0" prefWidth="710.0">
+                     <children>
+                        <Button fx:id="addSubclassRow" mnemonicParsing="false" onAction="#addNewRow" text="Unterkategorie hinzufügen" />
+                     </children>
+                  </HBox>
+               </children>
+               <padding>
+                  <Insets bottom="20.0" left="10.0" right="20.0" top="10.0" />
+               </padding>
+            </VBox>
+            <HBox alignment="CENTER" prefHeight="53.0" prefWidth="717.0" spacing="20.0">
+               <children>
+                  <Button fx:id="add" mnemonicParsing="false" onAction="#addNewMaterial" prefHeight="25.0" prefWidth="200.0" text="Hinzufügen" />
+                  <Button fx:id="close" mnemonicParsing="false" onAction="#closeWindow" prefHeight="25.0" prefWidth="200.0" text="Schließen" />
+               </children>
+            </HBox>
+         </children>
+      </VBox>
    </children>
 </AnchorPane>

@@ -179,7 +179,7 @@ public class ExcelGeneratorController {
         Stage stage = new Stage();
         Parent root = FXMLLoader.load(this.getClass().getClassLoader().getResource("fxml/newMaterial.fxml"));
         stage.getIcons().add(new Image(this.getClass().getClassLoader().getResourceAsStream("sad.png")));
-        stage.setScene(new Scene(root, 675, 750));
+        stage.setScene(new Scene(root, 710, 820));
         stage.setTitle("Neues Material hinzufügen");
         stage.setMinWidth(675);
         stage.setMinHeight(750);
