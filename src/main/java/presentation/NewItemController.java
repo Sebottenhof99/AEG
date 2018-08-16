@@ -9,6 +9,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
+import logic.AdditionNewItem;
 
 import java.io.IOException;
 import java.net.URL;
@@ -48,6 +49,7 @@ public class NewItemController implements Initializable {
     public Button close;
     public TextField subMaterial;
 
+
     @FXML
     public void initialize(URL location, ResourceBundle resources) {
 
@@ -82,8 +84,8 @@ public class NewItemController implements Initializable {
             System.out.println("NOT");
         }
         System.out.println(isDataMissing);
-
-        if (isDataMissing){
+//todo return back
+        if (false){
             infobox.setTextFill(Color.RED);
             infobox.setText("Bitte alle Pflichtfelder eintragen");
         }
@@ -98,12 +100,29 @@ public class NewItemController implements Initializable {
         //TODO Transmit all given data to db
 
 
-        ArrayList additionalMaterial = splitAdditionalMaterial(subMaterial.getText());
+        ArrayList<String> mainParameter = new ArrayList<>();
+        mainParameter.add(material.getText());//0
+        mainParameter.add(bulletPoint1.getText());//1
+        mainParameter.add(bulletPoint2.getText());//2
+        mainParameter.add(bulletPoint3.getText());//3
+        mainParameter.add(bulletPoint4.getText());//4
+        mainParameter.add(bulletPoint5.getText());//5
+        mainParameter.add(articleName.getText());//6
+        mainParameter.add(variationDropdown.getSelectionModel().getSelectedItem().toString());//7
+        mainParameter.add(browseNode.getText());//8
+        mainParameter.add(searchKeywords.getText());//9
+        mainParameter.add(description.getText());//10
+
+
+
+        ArrayList<String> additionalMaterial = splitAdditionalMaterial(subMaterial.getText());
+        ArrayList<String> parentSKU = splitAdditionalMaterial(parentSku.getText());
         if (additionalMaterial != null){
             //TODO Fill Modell_Material Table
         }
 
-
+        AdditionNewItem additionNewItem = new AdditionNewItem(mainParameter,additionalMaterial,parentSKU);
+        additionNewItem.setItem();
         return true;
     }
 
