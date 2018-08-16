@@ -4,18 +4,23 @@ import defines.Defines;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.geometry.Pos;
 import javafx.scene.control.*;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import logic.AdditionNewItem;
 
-import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.ResourceBundle;
+import java.util.TreeMap;
 
 public class NewItemController implements Initializable {
 
@@ -41,13 +46,15 @@ public class NewItemController implements Initializable {
     public Label articleNameLabel;
     public Label bp2Label;
     public Label bp1Label;
-    public Label subCategoryLabel;
     public Label materialLabel;
     public Label bp4Label;
     public Label bp3Label;
     public Label bp5Label;
     public Button close;
-    public TextField subMaterial;
+    public VBox SubclassVbox;
+    public Button addSubclassRow;
+
+    private ObservableList<HBox> subclassSet;
 
 
     @FXML
@@ -57,17 +64,78 @@ public class NewItemController implements Initializable {
         variations.add(Defines.VariationThemes.SIZE);
         variations.add(Defines.VariationThemes.COLOR);
         variations.add(Defines.VariationThemes.SIZECOLOR);
+        subclassSet = FXCollections.observableArrayList();
+
 
         variationDropdown.setItems(variations);
 
     }
 
+    public void addNewRow(){
+
+this.parentSku.setDisable(true);
+
+
+        HBox hBox = new HBox();
+        hBox.setSpacing(20);
+        hBox.setAlignment(Pos.CENTER);
+
+        Label subclass = new Label("Unterkategorie");
+        subclass.setFont(Font.font(18));
+        hBox.getChildren().add(subclass);
+
+        TextField subClassTextField = new TextField();
+        subClassTextField.setPrefWidth(180);
+        subClassTextField.setPrefHeight(25);
+        hBox.getChildren().add( subClassTextField );
+
+        Label parentSKU = new Label("Parent SKU");
+        parentSKU.setFont(Font.font(18));
+        hBox.getChildren().add(parentSKU);
+
+        TextField parentSkuTextField = new TextField();
+        parentSkuTextField.setPrefWidth(180);
+        parentSkuTextField.setPrefHeight(25);
+        hBox.getChildren().add( parentSkuTextField );
+
+        Button minus = new Button("-");
+
+        minus.setOnAction(new EventHandler<ActionEvent>() {
+
+            @Override
+            public void handle(ActionEvent event) {
+                Button clickedButton = (Button) event.getSource();
+
+                SubclassVbox.getChildren().remove(clickedButton.getParent());
+                subclassSet.remove(clickedButton.getParent());
+                if (subclassSet.size()==0){
+                    parentSku.setDisable(false);
+
+                }
+
+
+            }
+
+        });
+        hBox.getChildren().add( minus );
+
+        subclassSet.add(hBox);
+
+
+    SubclassVbox.getChildren().add(hBox);
+    SubclassVbox.setSpacing(10);
+    }
+
+
+
 
     public void addNewMaterial(ActionEvent actionEvent) {
-        boolean isDataMissing=false;
 
-        subCategoryLabel.setTextFill(Color.GREEN);
-        if( !isDataFilled(material, materialLabel) |
+
+        boolean isDataMissing = false;
+
+      //  subCategoryLabel.setTextFill(Color.GREEN);
+        if (!isDataFilled(material, materialLabel) |
                 !isDataFilled(bulletPoint1, bp1Label) |
                 !isDataFilled(bulletPoint2, bp2Label) |
                 !isDataFilled(bulletPoint3, bp3Label) |
@@ -78,18 +146,16 @@ public class NewItemController implements Initializable {
                 !isDataFilled(browseNode, browseNodeLabel) |
                 !isDataFilled(searchKeywords, searchKeywordLabel) |
                 !isDataFilled(description, descriptionLabel) |
-                !isDataFilled(variationDropdown, variationLabel))
-        {
+                !isDataFilled(variationDropdown, variationLabel)) {
             isDataMissing = true;
             System.out.println("NOT");
         }
         System.out.println(isDataMissing);
 //todo return back
-        if (false){
+        if (false) {
             infobox.setTextFill(Color.RED);
             infobox.setText("Bitte alle Pflichtfelder eintragen");
-        }
-        else {
+        } else {
             infobox.setTextFill(Color.ORANGE);
             infobox.setText("Die Daten werden übertragen. Bitte warten...");
             processData();
@@ -97,8 +163,6 @@ public class NewItemController implements Initializable {
     }
 
     private boolean processData(){
-        //TODO Transmit all given data to db
-
 
         ArrayList<String> mainParameter = new ArrayList<>();
         mainParameter.add(material.getText());//0
@@ -114,27 +178,36 @@ public class NewItemController implements Initializable {
         mainParameter.add(description.getText());//10
 
 
+        AdditionNewItem additionNewItem;
+        if (!parentSku.isDisabled()){
+            mainParameter.add(parentSku.getText());//11
+            additionNewItem = new AdditionNewItem(mainParameter);
 
-        ArrayList<String> additionalMaterial = splitAdditionalMaterial(subMaterial.getText());
-        ArrayList<String> parentSKU = splitAdditionalMaterial(parentSku.getText());
-        if (additionalMaterial != null){
-            //TODO Fill Modell_Material Table
+
+        }else{
+            TreeMap<String,String> subCategorieParentSkuPaar = new TreeMap<>();
+            for (int i = 0; i <subclassSet.size() ; i++) {
+
+                TextField a = (TextField)subclassSet.get(i).getChildren().get(1);
+                String sub = a.getText();
+                TextField b = (TextField)subclassSet.get(i).getChildren().get(3);
+                String parent = b.getText();
+                System.out.println("Sub: " + sub +" parent von ihr" + parent );
+
+                subCategorieParentSkuPaar.put(sub, parent);
+
+            }
+
+            additionNewItem = new AdditionNewItem(mainParameter, subCategorieParentSkuPaar);
         }
 
-        AdditionNewItem additionNewItem = new AdditionNewItem(mainParameter,additionalMaterial,parentSKU);
-        additionNewItem.setItem();
-        return true;
+
+
+        return  additionNewItem.setItem();
+
     }
 
 
-    public ArrayList<String> splitAdditionalMaterial(String material){
-        if(material == null || material.isEmpty()){
-            return null;
-        }
-        String[] splittedMaterial = material.split(",");
-        ArrayList<String> list = new ArrayList<>(Arrays.asList(splittedMaterial));
-        return list;
-    }
 
     public boolean isDataFilled(TextField field, Label label){
         if(field == null || field.getText().trim().isEmpty()){
@@ -173,17 +246,6 @@ public class NewItemController implements Initializable {
 
     public void closeWindow(ActionEvent actionEvent) {
         Stage stage = (Stage) close.getScene().getWindow();
-
-       String path = System.getProperty("user.dir");
-       path+="\\src\\main\\resources\\shutdown.bat";
-
-        try {
-            Runtime.getRuntime().exec(path);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        //TODO REMOVE
-
         stage.close();
     }
 }

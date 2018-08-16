@@ -5,6 +5,8 @@ import defines.Defines;
 
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.Map;
+import java.util.TreeMap;
 
 public class DAOAdditionNewItem {
 
@@ -30,6 +32,8 @@ public class DAOAdditionNewItem {
 
         Integer id=null;
         Connection con = DbConnectionSingletonFactory.getConnection();
+        System.out.println("con:"+ con.isClosed());
+
         Statement stmt = null;
         stmt = con.createStatement();
         ResultSet rs = stmt.executeQuery(sqlQuery);
@@ -60,27 +64,19 @@ public class DAOAdditionNewItem {
 
     }
 
-    public void addAdditionalMaterial(String material, ArrayList<String> modelMaterial) throws SQLException {
-
+    public void addAdditionalMaterial(String material, TreeMap<String,String> modelMaterial) throws SQLException {
         Integer materialId = getIdByMaterial(material);
         System.out.println("Add new addtitonal material for : "+material+"with id " + materialId);
 
-            if (modelMaterial==null||modelMaterial.isEmpty()){
+        Connection con = DbConnectionSingletonFactory.getConnection();
 
-            }   else{
-                Connection con = DbConnectionSingletonFactory.getConnection();
-
-                for (int i = 0; i <modelMaterial.size() ; i++) {
-                    PreparedStatement preparedStatement = con.prepareStatement("INSERT INTO Modell_Material(material_id, name) VALUES (?,?)");
-                    preparedStatement.setInt(1, materialId);
-                    preparedStatement.setString(2,modelMaterial.get(i));
-
-                    preparedStatement.execute();
-                    preparedStatement.close();
-                }
-            }
-
-
+        for (Map.Entry<String, String> entry : modelMaterial.entrySet()) {
+            PreparedStatement preparedStatement = con.prepareStatement("INSERT INTO Modell_Material(material_id, name) VALUES (?,?)");
+            preparedStatement.setInt(1, materialId);
+            preparedStatement.setString(2,entry.getKey());
+            preparedStatement.execute();
+            preparedStatement.close();
+        }
     }
 
 
@@ -125,58 +121,42 @@ public class DAOAdditionNewItem {
 
 
     }
-    public void addParentSKU(String material, ArrayList<String> addtionalMaterial, ArrayList<String> parents) throws SQLException {
+
+    public void addParentSKU(String material, TreeMap<String, String> subCategorieParentSku) throws SQLException {
 
         Integer materialId = getIdByMaterial(material);
-        System.out.println("Add general information   for : "+material+" with id " + materialId);
-
-
-
+        System.out.println("Add general information   for : " + material + " with id " + materialId);
 
 
         Connection con = DbConnectionSingletonFactory.getConnection();
-if(addtionalMaterial==null||addtionalMaterial.isEmpty()){
 
-    PreparedStatement preparedStatement = con.prepareStatement("INSERT INTO ParentInfo(material_id, modell_material_id,parentSKU) VALUES (?,?,?)");
-    preparedStatement.setInt(1, materialId);
+        for (Map.Entry<String, String> entry : subCategorieParentSku.entrySet())
+        {
+            Integer modellMaterialId = getIdByModellMaterial(entry.getKey());
 
-    preparedStatement.setNull(2,java.sql.Types.INTEGER);
-    preparedStatement.setString(3,parents.get(0));
-
-
-    preparedStatement.execute();
-    preparedStatement.close();
-
-
-}else {
-
-    for (int i = 0; i <addtionalMaterial.size() ; i++) {
-
-        Integer modellMaterialId = getIdByModellMaterial(addtionalMaterial.get(i));
-
-        PreparedStatement preparedStatement = con.prepareStatement("INSERT INTO ParentInfo(material_id, modell_material_id,parentSKU) VALUES (?,?,?)");
-        preparedStatement.setInt(1, materialId);
-        if (modellMaterialId==null||modellMaterialId==0){
-            preparedStatement.setString(2,null);
-        }else {
-            preparedStatement.setInt(2,modellMaterialId);
+            PreparedStatement preparedStatement = con.prepareStatement("INSERT INTO ParentInfo(material_id, modell_material_id,parentSKU) VALUES (?,?,?)");
+            preparedStatement.setInt(1, materialId);
+            preparedStatement.setInt(2, modellMaterialId);
+            preparedStatement.setString(3, entry.getValue());
+            preparedStatement.execute();
+            preparedStatement.close();
         }
-
-        preparedStatement.setString(3,parents.get(i));
-
-
-        preparedStatement.execute();
-        preparedStatement.close();
-}
-}
-
-
-
-
-
 
     }
 
 
 
+    public void addParentSKU(String material, String parentSku) throws SQLException {
+
+        Integer materialId = getIdByMaterial(material);
+        System.out.println("Add parent SKU information   for : " + material + " with id " + materialId);
+
+        Connection con = DbConnectionSingletonFactory.getConnection();
+        PreparedStatement preparedStatement = con.prepareStatement("INSERT INTO ParentInfo(material_id, modell_material_id,parentSKU) VALUES (?,?,?)");
+        preparedStatement.setInt(1, materialId);
+        preparedStatement.setNull(2, java.sql.Types.INTEGER);
+        preparedStatement.setString(3,parentSku);
+        preparedStatement.execute();
+        preparedStatement.close();
+    }
 }
