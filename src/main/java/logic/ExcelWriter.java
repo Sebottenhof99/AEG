@@ -50,7 +50,6 @@ public class ExcelWriter {
         }
         cell.setCellValue(val);
 
-
     }
 
     public void closeFile(String storagePath) throws IOException {
